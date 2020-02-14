@@ -18,12 +18,10 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "typescript": "^3.7.5"
   },
   "main": "index.js",
-  "engines": {
-    "node": ">=8.x"
-  },
   "scripts": {
     "start": "cross-env PORT=5000 nodemon index.js"
   }

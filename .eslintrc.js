@@ -15,10 +15,6 @@ module.exports = {
 
     '@typescript-eslint/explicit-function-return-type': ['error'],
 
-    // note you must disable the base rule as it can report incorrect errors
-    camelcase: 'off',
-    '@typescript-eslint/camelcase': ['error', { properties: 'always' }],
-
     '@typescript-eslint/interface-name-prefix': ['error', 'always'],
 
     'no-use-before-define': 'off',
@@ -57,8 +53,6 @@ module.exports = {
         // They're great for debugging, but thats it.
         'jest/no-focused-tests': 'error',
         'jest/no-disabled-tests': 'warn',
-        // Mocks can ignore the camel case rule
-        '@typescript-eslint/camelcase': 'off'
       }
     }
   ]

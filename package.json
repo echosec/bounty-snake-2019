@@ -19,7 +19,19 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.9",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.2",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-jest": "^23.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jest": "^24.9.0",
+    "prettier": "1.19.1",
+    "pretty-quick": "2.0.1",
+    "ts-jest": "^24.0.2"
   },
   "main": "index.js",
   "scripts": {

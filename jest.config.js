@@ -4,7 +4,7 @@
 module.exports = {
   globals: {
     'ts-jest': {
-      enableTsDiagnostics: true,
+      diagnostics: true,
     },
   },
   verbose: true,
@@ -34,7 +34,8 @@ module.exports = {
   ],
   collectCoverage: true,
   useStderr: true,
-  forceExit: true,
+  // TODO: We probably don't need this. If we do, we might be doing something wrong.
+  // forceExit: true,
   // prettier-ignore
   coverageReporters: [
     "json",

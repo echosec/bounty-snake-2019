@@ -10,7 +10,7 @@ const SAFE = 0;
 const NOPE = 1;
 
 /**
- * Takes the board state and creates a multidimensional array of 0s
+ * Takes the board state and creates a matrix of 0s
  * e.g.
  * [
  *   [0,0,0],
@@ -24,16 +24,15 @@ function createGrid(board: IBoard): number[][] {
   let row: number[];
   const grid: Matrix = [];
 
-  // For each square of height, create a row
+  // Add arrays to the grid until we reach the prescribed height
   while(grid.length < board.height) {
     row = [];
 
-    // Define each node in the row as walkable
+    // Add 0s to each array until we reach the prescribed width
     while(row.length < board.width) {
       row.push(SAFE);
     }
 
-    // Add the row to the grid
     grid[grid.length] = row;
   }
 
@@ -42,9 +41,12 @@ function createGrid(board: IBoard): number[][] {
 
 /**
  * Add snakes to the grid
+ * @param {Matrix} grid - the matrix representing the empty board
+ * @param {ISnake[]} snakes - the array of sneks to add
+ * @returns {Matrix} - a new matrix with unwalkable spaces marked
  */
-function addSnakes(grid: Matrix, snakes: ISnake[]) {
-  // Make a copy of the grid
+function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
+  // Make a copy of the grid to preserve the original
   const newGrid = [...grid];
 
   // For each snake, iterate over its segments,

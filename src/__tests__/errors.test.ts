@@ -5,5 +5,6 @@ describe('Errors', () => {
     expect(() => {
       throw new CustomError('This is an error');
     }).toThrowError();
+    expect(true).toBe(false);
   });
 });

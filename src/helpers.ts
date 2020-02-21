@@ -1,9 +1,11 @@
 import {
+  Directions,
   IBoard,
   ICoordinate,
   ISnake,
   Matrix
 } from './Types';
+// TODO: fix this import
 import Pathfinder from 'pathfinding';
 
 const SAFE = 0;
@@ -20,7 +22,7 @@ const NOPE = 1;
  * @param {IBoard} board - the board state
  * @returns {Matrix} - a multidimensional array
  */
-function createGrid(board: IBoard): number[][] {
+function createGrid(board: IBoard): Matrix {
   let row: number[];
   const grid: Matrix = [];
 
@@ -63,11 +65,11 @@ function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
 /**
  * Convert coordinates to a string of either
  * 'left', 'right', 'up', or 'down'
- * @param {ICoordinate} move - the coordinates to move to
- * @param {ICoordinate} start - the coordinates to start at
- * @returns {string} - an orthogonal direction
+ * @param {ICoordinate} move - the coordinates we are moving to
+ * @param {ICoordinate} start - the coordinates we are starting at
+ * @returns {Directions} - an orthogonal direction
  */
-function coordinatesToDirection(move: ICoordinate, start: ICoordinate): string {
+function coordinatesToDirection(move: ICoordinate, start: ICoordinate): Directions {
   // Calculate the difference between start and finish
   const delta: ICoordinate = {
     x: start.x - move.x,
@@ -82,18 +84,18 @@ function coordinatesToDirection(move: ICoordinate, start: ICoordinate): string {
   }
 
   if (delta.x = -1) {
-    return 'left';
+    return Directions.LEFT;
   }
 
   if (delta.x = 1) {
-    return 'right';
+    return Directions.RIGHT;
   }
 
   if (delta.y = -1) {
-    return 'up';
+    return Directions.UP;
   }
 
-  return 'down';
+  return Directions.DOWN;
 }
 
 /**

@@ -16,3 +16,5 @@ export interface IBoard {
   food: ICoordinate[];
   snakes: ISnake[];
 }
+
+export type Matrix = number[][];

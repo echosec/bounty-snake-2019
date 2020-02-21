@@ -4,6 +4,6 @@ describe('Errors', () => {
   test('should throw error with instanceof CustomError', () => {
     expect(() => {
       throw new CustomError('This is an error');
-    }).toThrow();
+    }).toThrowError();
   });
 });

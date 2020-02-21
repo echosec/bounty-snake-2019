@@ -41,9 +41,9 @@ export function createGrid(board: IBoard): Matrix {
  * @param {ISnake[]} snakes - the array of sneks to add
  * @returns {Matrix} - a new matrix with unwalkable spaces marked
  */
-export function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
+export function addSnakesToGrid(grid: Matrix, snakes: ISnake[]): Matrix {
   // Make a copy of the grid to preserve the original
-  const newGrid = [...grid];
+  const newGrid: Matrix = [...grid];
 
   // For each snake, iterate over its segments,
   // marking the coordinates as unwalkable
@@ -107,7 +107,7 @@ export function findPath(
   grid: Matrix,
   start: ICoordinate,
   target: ICoordinate
-) {
+): Matrix | [] {
   // Instantiate the pathfinding grid and A* pathfinder
   const pfGrid = new Pathfinder.Grid(grid);
   const finder = new Pathfinder.AStarFinder();
@@ -141,7 +141,7 @@ export function findPath(
  * @param {Matrix} path - paired coordinates, eg. [ [ 1, 2 ], [ 1, 1 ] ]
  * @returns {ICoordinate} - the coordinates to move to
  */
-export function getNextMove(path: Matrix) {
+export function getNextMove(path: Matrix): ICoordinate {
   const move: ICoordinate = {
     x: path[0][0],
     y: path[0][1],

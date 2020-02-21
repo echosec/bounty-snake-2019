@@ -16,7 +16,7 @@ const NOPE = 1;
  * @param {IBoard} board - the board state
  * @returns {Matrix} - a multidimensional array
  */
-function createGrid(board: IBoard): Matrix {
+export function createGrid(board: IBoard): Matrix {
   let row: number[];
   const grid: Matrix = [];
 
@@ -41,7 +41,7 @@ function createGrid(board: IBoard): Matrix {
  * @param {ISnake[]} snakes - the array of sneks to add
  * @returns {Matrix} - a new matrix with unwalkable spaces marked
  */
-function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
+export function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
   // Make a copy of the grid to preserve the original
   const newGrid = [...grid];
 
@@ -63,7 +63,7 @@ function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
  * @param {ICoordinate} start - the coordinates we are starting at
  * @returns {Directions} - an orthogonal direction
  */
-function coordinatesToDirection(
+export function coordinatesToDirection(
   move: ICoordinate,
   start: ICoordinate
 ): Directions {
@@ -103,7 +103,11 @@ function coordinatesToDirection(
  * @param {ICoordinate} target - the end coordinates for pathfinding
  * @returns {string} - the direction to move
  */
-function findPath(grid: Matrix, start: ICoordinate, target: ICoordinate) {
+export function findPath(
+  grid: Matrix,
+  start: ICoordinate,
+  target: ICoordinate
+) {
   // Instantiate the pathfinding grid and A* pathfinder
   const pfGrid = new Pathfinder.Grid(grid);
   const finder = new Pathfinder.AStarFinder();
@@ -137,7 +141,7 @@ function findPath(grid: Matrix, start: ICoordinate, target: ICoordinate) {
  * @param {Matrix} path - paired coordinates, eg. [ [ 1, 2 ], [ 1, 1 ] ]
  * @returns {ICoordinate} - the coordinates to move to
  */
-function getNextMove(path: Matrix) {
+export function getNextMove(path: Matrix) {
   const move: ICoordinate = {
     x: path[0][0],
     y: path[0][1],

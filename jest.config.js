@@ -1,4 +1,3 @@
-
 /**
  * Jest configuration file.
  */

@@ -1,10 +1,4 @@
-import {
-  Directions,
-  IBoard,
-  ICoordinate,
-  ISnake,
-  Matrix
-} from './Types';
+import { Directions, IBoard, ICoordinate, ISnake, Matrix } from './Types';
 // TODO: fix this import
 import Pathfinder from 'pathfinding';
 
@@ -27,11 +21,11 @@ function createGrid(board: IBoard): Matrix {
   const grid: Matrix = [];
 
   // Add arrays to the grid until we reach the prescribed height
-  while(grid.length < board.height) {
+  while (grid.length < board.height) {
     row = [];
 
     // Add 0s to each array until we reach the prescribed width
-    while(row.length < board.width) {
+    while (row.length < board.width) {
       row.push(SAFE);
     }
 
@@ -56,7 +50,7 @@ function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
   snakes.forEach((snake: ISnake): void => {
     snake.body.forEach((segment: ICoordinate): void => {
       newGrid[segment.y][segment.x] = NOPE;
-    })
+    });
   });
 
   return newGrid;
@@ -69,12 +63,15 @@ function addSnakesToGrid(grid: Matrix, snakes: ISnake[]) {
  * @param {ICoordinate} start - the coordinates we are starting at
  * @returns {Directions} - an orthogonal direction
  */
-function coordinatesToDirection(move: ICoordinate, start: ICoordinate): Directions {
+function coordinatesToDirection(
+  move: ICoordinate,
+  start: ICoordinate
+): Directions {
   // Calculate the difference between start and finish
   const delta: ICoordinate = {
     x: start.x - move.x,
-    y: start.y - move.y
-  }
+    y: start.y - move.y,
+  };
 
   // We should only ever be traversing one node at a time,
   // so if the absolute value of either delta is greater than
@@ -83,15 +80,15 @@ function coordinatesToDirection(move: ICoordinate, start: ICoordinate): Directio
     return null;
   }
 
-  if (delta.x = -1) {
+  if ((delta.x = -1)) {
     return Directions.LEFT;
   }
 
-  if (delta.x = 1) {
+  if ((delta.x = 1)) {
     return Directions.RIGHT;
   }
 
-  if (delta.y = -1) {
+  if ((delta.y = -1)) {
     return Directions.UP;
   }
 

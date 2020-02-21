@@ -1,4 +1,3 @@
-
 /**
  * Jest configuration file.
  */
@@ -18,11 +17,13 @@ module.exports = {
    * from  the  folders  to  be  compiled, though -- but in any case that flag could be removed and JS tests files are
    * generated, this option would prevented to run it.
    */
+  // prettier-ignore
   coveragePathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
   ],
   testRegex: '(./__tests__/.*| (\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+  // prettier-ignore
   moduleFileExtensions: [
     'ts',
     'tsx',
@@ -34,6 +35,7 @@ module.exports = {
   collectCoverage: true,
   useStderr: true,
   forceExit: true,
+  // prettier-ignore
   coverageReporters: [
     "json",
     "lcov",
@@ -41,5 +43,5 @@ module.exports = {
   ],
   expand: true,
   logHeapUsage: true,
-  bail: true
+  bail: true,
 };

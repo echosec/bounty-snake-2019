@@ -11,11 +11,19 @@ jobs:
   build_image:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo ::set-env name=SHA7::$(echo ${GITHUB_SHA} | cut -c1-7)
       - uses: actions/checkout@v2
-      - name: Publish to GitHub Packages
+      - name: Publish SHA7 tag to GitHub Packages
         uses: matootie/github-docker@v2.2.2
         with:
           accessToken: ${{ secrets.GITHUB_TOKEN }}
+          imageTag: "${SHA7}"
+      - name: Publish latest tag to GitHub Packages
+        uses: matootie/github-docker@v2.2.2
+        with:
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          imageTag: "latest"
 
       # - run: |
       #     curl -s -f \

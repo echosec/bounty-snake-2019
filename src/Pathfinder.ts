@@ -8,6 +8,9 @@ const NOPE = 1;
  * A pathfinding class.
  *
  * Instantiated with the board state and the array of snakes.
+ * @param {IBoard} - the board state
+ * @param {ISnake[]} -the sneks
+ * 
  * Has the following functions:
  *  getFullPath - @returns {Matrix} the full path from a start point to a target
  *  getStep - @returns {Direction} the next step to move toward a target

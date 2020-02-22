@@ -19,6 +19,6 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: echosec/bounty-snake-2020
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
           tags: 'latest'

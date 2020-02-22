@@ -5,16 +5,22 @@ on:
   push:
     branches:
       - master
+      - build-docker-image-in-actions
 
 jobs:
   build_image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Publish to Dockerhub
-        uses: elgohr/Publish-Docker-Github-Action@master
+      - name: Publish to GitHub Packages
+        uses: matootie/github-docker@v2.2.2
         with:
-          name: echosec/bounty-snake-2020
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          tags: 'latest'
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+
+      # - run: |
+      #     curl -s -f \
+      #       -X POST \
+      #       -H "Content-Type: application/json" \
+      #       -H "Authorization: Bearer ${DIGITALOCEAN_API_KEY}" \
+      #       -d {"type": "rebuild", "image": "docker-18-04"} \
+      #       "https://api.digitalocean.com/v2/droplets/${DIGITALOCEAN_DROPLET_ID}/actions"

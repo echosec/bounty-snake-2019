@@ -16,10 +16,3 @@ jobs:
         with:
           accessToken: ${{ secrets.GITHUB_TOKEN }}
           imageTag: "latest"
-      # - run: |
-      #     curl -s -f \
-      #       -X POST \
-      #       -H "Content-Type: application/json" \
-      #       -H "Authorization: Bearer ${DIGITALOCEAN_API_KEY}" \
-      #       -d {"type": "rebuild", "image": "docker-18-04"} \
-      #       "https://api.digitalocean.com/v2/droplets/${DIGITALOCEAN_DROPLET_ID}/actions"

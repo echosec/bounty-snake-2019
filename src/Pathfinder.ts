@@ -1,5 +1,5 @@
 import { Directions, IBoard, ICoordinate, ISnake, Matrix } from './Types';
-const PF = require('pathfinding');
+import PF = require('../node_modules/pathfinding');
 
 const SAFE = 0;
 const NOPE = 1;

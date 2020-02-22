@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - build-docker-image-in-actions
 
 jobs:
   build_image:
@@ -17,7 +16,6 @@ jobs:
         with:
           accessToken: ${{ secrets.GITHUB_TOKEN }}
           imageTag: "latest"
-
       # - run: |
       #     curl -s -f \
       #       -X POST \

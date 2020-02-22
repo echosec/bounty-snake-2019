@@ -10,7 +10,7 @@ const NOPE = 1;
  * Instantiated with the board state and the array of snakes.
  * @param {IBoard} - the board state
  * @param {ISnake[]} -the sneks
- * 
+ *
  * Has the following functions:
  *  getFullPath - @returns {Matrix} the full path from a start point to a target
  *  getStep - @returns {Direction} the next step to move toward a target
@@ -18,11 +18,11 @@ const NOPE = 1;
  *  and the game state for use in debugging
  */
 export class Pathfinder {
-  grid: Matrix;
-  pfGrid: any;
-  finder: any;
+  private grid: Matrix;
+  private pfGrid: any;
+  private finder: any;
 
-  constructor(board: IBoard, snakes: ISnake[]) {
+  private constructor(board: IBoard, snakes: ISnake[]) {
     // Create a representation of the board for use in pathfinding
     this.grid = this.createGrid(board);
     this.grid = this.addSnakesToGrid(this.grid, snakes);
@@ -34,10 +34,7 @@ export class Pathfinder {
    * @param {ICoordinate} target - The target coordinates
    * @returns {string} - the direction to move
    */
-  public getStep(
-    start: ICoordinate,
-    target: ICoordinate
-  ): Directions {
+  public getStep(start: ICoordinate, target: ICoordinate): Directions {
     const fullPath: Matrix = this.getFullPath(start, target);
     const nextMove: ICoordinate = this.getNextMove(fullPath);
     const direction: Directions = this.getDirection(nextMove, start);
@@ -50,10 +47,7 @@ export class Pathfinder {
    * @param {ICoordinate} target - the end coordinates for pathfinding
    * @returns {Matrix} - the full path
    */
-  public getFullPath(
-    start: ICoordinate,
-    target: ICoordinate
-  ): Matrix | [] {
+  public getFullPath(start: ICoordinate, target: ICoordinate): Matrix | [] {
     // Instantiate the pathfinding grid and A* pathfinder
     this.pfGrid = new PF.Grid(this.grid);
     this.finder = new PF.AStarFinder();
@@ -139,10 +133,7 @@ export class Pathfinder {
    * @param {ICoordinate} start - the coordinates we are starting at
    * @returns {Directions} - an orthogonal direction
    */
-  private getDirection(
-    move: ICoordinate,
-    start: ICoordinate
-  ): Directions {
+  private getDirection(move: ICoordinate, start: ICoordinate): Directions {
     // Calculate the difference between start and finish
     const delta: ICoordinate = {
       x: start.x - move.x,

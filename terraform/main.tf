@@ -21,10 +21,10 @@ resource "digitalocean_ssh_key" "bounty_snake_ssh_key" {
 }
 
 resource "digitalocean_droplet" "bounty_snake_droplet" {
-  image    = "ubuntu-18-04-x64"
+  image    = "docker-18-04"
   name     = "echosec-bounty-snake"
   region   = "nyc3"
-  size     = "s-1vcpu-1gb"
+  size     = "s-2vcpu-4gb"
   ssh_keys = [digitalocean_ssh_key.bounty_snake_ssh_key.fingerprint]
 }
 

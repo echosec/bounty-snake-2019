@@ -9,7 +9,7 @@ const NOPE = 1;
  *
  * Instantiated with the board state and the array of snakes.
  * @param {IBoard} - the board state
- * @param {ISnake[]} -the sneks
+ * @param {ISnake[]} - the sneks
  *
  * Has the following functions:
  *  getFullPath - @returns {Matrix} the full path from a start point to a target
@@ -19,8 +19,6 @@ const NOPE = 1;
  */
 export class Pathfinder {
   private grid: Matrix;
-  private pfGrid: any;
-  private finder: any;
 
   private constructor(board: IBoard, snakes: ISnake[]) {
     // Create a representation of the board for use in pathfinding
@@ -49,16 +47,16 @@ export class Pathfinder {
    */
   public getFullPath(start: ICoordinate, target: ICoordinate): Matrix | [] {
     // Instantiate the pathfinding grid and A* pathfinder
-    this.pfGrid = new PF.Grid(this.grid);
-    this.finder = new PF.AStarFinder();
+    const pfGrid = new PF.Grid(this.grid);
+    const finder = new PF.AStarFinder();
     // Set our head and target as walkable, because if they
     // are part of a snake's body, they will be unwalkable by default
-    this.pfGrid.setWalkableAt(start.x, start.y, true);
-    this.pfGrid.setWalkableAt(target.x, target.y, true);
+    pfGrid.setWalkableAt(start.x, start.y, true);
+    pfGrid.setWalkableAt(target.x, target.y, true);
 
     // finder.findPath returns a matrix of paired coordinate values
     // eg. [ [ 1, 2 ], [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 3, 2 ] ]
-    const path: Matrix = this.finder.findPath(
+    const path: Matrix = finder.findPath(
       start.x,
       start.y,
       target.x,

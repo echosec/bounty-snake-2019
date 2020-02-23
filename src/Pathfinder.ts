@@ -27,16 +27,22 @@ export class Pathfinder {
   }
 
   /**
-   * Get the next step toward a target.
+   * Get the next step toward a target. Returns null if
+   * there is no valid path or the pathfinding has failed.
    * @param {ICoordinate} start - The starting coordinates
    * @param {ICoordinate} target - The target coordinates
    * @returns {string} - the direction to move
    */
   public getStep(start: ICoordinate, target: ICoordinate): Directions {
-    const fullPath: Matrix = this.getFullPath(start, target);
-    const nextMove: ICoordinate = this.getNextMove(fullPath);
-    const direction: Directions = this.getDirection(nextMove, start);
-    return direction;
+    try {
+      const fullPath: Matrix = this.getFullPath(start, target);
+      const nextMove: ICoordinate = this.getNextMove(fullPath);
+      const direction: Directions = this.getDirection(nextMove, start);
+      return direction;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   /**
@@ -170,7 +176,7 @@ export class Pathfinder {
    * @returns {ICoordinate} - the coordinates to move to
    */
   private getNextMove(path: Matrix): ICoordinate {
-    let move: ICoordinate = path.length
+    const move: ICoordinate = path && path.length
       ? { x: path[0][0], y: path[0][1] }
       : null;
 

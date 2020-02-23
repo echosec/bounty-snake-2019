@@ -132,6 +132,10 @@ export class Pathfinder {
    * @returns {Directions} - an orthogonal direction
    */
   private getDirection(move: ICoordinate, start: ICoordinate): Directions {
+    if (!move) {
+      return null;
+    }
+
     // Calculate the difference between start and finish
     const delta: ICoordinate = {
       x: start.x - move.x,
@@ -166,10 +170,9 @@ export class Pathfinder {
    * @returns {ICoordinate} - the coordinates to move to
    */
   private getNextMove(path: Matrix): ICoordinate {
-    const move: ICoordinate = {
-      x: path[0][0],
-      y: path[0][1],
-    };
+    let move: ICoordinate = path.length
+      ? { x: path[0][0], y: path[0][1] }
+      : null;
 
     return move;
   }

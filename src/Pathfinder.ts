@@ -176,10 +176,6 @@ export class Pathfinder {
    * @returns {ICoordinate} - the coordinates to move to
    */
   private getNextMove(path: Matrix): ICoordinate {
-    const move: ICoordinate = path && path.length
-      ? { x: path[0][0], y: path[0][1] }
-      : null;
-
-    return move;
+    return path && path.length ? { x: path[0][0], y: path[0][1] } : null;
   }
 }

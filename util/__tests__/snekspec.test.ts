@@ -1,67 +1,22 @@
 import {
   candidateSnakesAndFoodFromMock,
   isAdjacent,
-  untagleSnake,
+  untangleSnake,
   getGameStateFromMock,
 } from '../snekspec';
 
-// eslint-disable-next-line prettier/prettier
-const scenario1 = 
-`-----------
----0-------
------------
---T------0-
---tS-------
---tt---0---
------------
---------U--
----0----v--
------Vvvv--
------------`;
-// eslint-disable-next-line prettier/prettier
-const scenario2 = 
-`-----------
------------
------------
------------
-----S------
------------
------------
------------
------------
------------
------------`;
-// eslint-disable-next-line prettier/prettier
-const scenario3 = 
-`-----------
------------
------------
------------
-----S------
-----T------
------------
------------
------------
------------
------------`;
-// eslint-disable-next-line prettier/prettier
-const scenario4 = 
-`-----------
------------
------------
------------
-----T------
-----S------
------------
------------
------------
------------
------------`;
+import {
+  snakesAndFood1,
+  singleHeadSnake,
+  headAndTailSnake1,
+  headAndTailSnake2,
+  curlySnake,
+} from './scenarios';
 
 describe('snake scenario parsing and game state generation tests', (): void => {
   it('should parse the scenario and generate food', (): void => {
     const candidateSnakesAndFood = candidateSnakesAndFoodFromMock(
-      scenario1,
+      snakesAndFood1,
       11,
       11
     );
@@ -79,7 +34,7 @@ describe('snake scenario parsing and game state generation tests', (): void => {
 
   it('should parse the scenario and generate snake candidates', (): void => {
     const candidateSnakesAndFood = candidateSnakesAndFoodFromMock(
-      scenario1,
+      snakesAndFood1,
       11,
       11
     );
@@ -122,22 +77,22 @@ describe('snakes get untaggled', (): void => {
     expect(isAdjacent({ x: 8, y: 8 }, { x: 8, y: 7 })).toBe(true);
   });
 
-  it('should untangle snake paths', (): void => {
+  it('should untangle multiple snake paths', (): void => {
     const candidateSnakesAndFood = candidateSnakesAndFoodFromMock(
-      scenario1,
+      snakesAndFood1,
       11,
       11
     );
-    const untagledSnakeS = untagleSnake(candidateSnakesAndFood.snakes.s);
-    const untagledSnakeU = untagleSnake(candidateSnakesAndFood.snakes.u);
-    expect(untagledSnakeS).toEqual([
+    const untangledSnakeS = untangleSnake(candidateSnakesAndFood.snakes.s);
+    const untangledSnakeU = untangleSnake(candidateSnakesAndFood.snakes.u);
+    expect(untangledSnakeS).toEqual([
       { x: 3, y: 4 },
       { x: 3, y: 5 },
       { x: 2, y: 5 },
       { x: 2, y: 4 },
       { x: 2, y: 3 },
     ]);
-    expect(untagledSnakeU).toEqual([
+    expect(untangledSnakeU).toEqual([
       { x: 8, y: 7 },
       { x: 8, y: 8 },
       { x: 8, y: 9 },
@@ -146,11 +101,77 @@ describe('snakes get untaggled', (): void => {
       { x: 5, y: 9 },
     ]);
   });
+
+  it('should untangle a curly snake', (): void => {
+    const candidateSnakesAndFood = candidateSnakesAndFoodFromMock(
+      curlySnake,
+      11,
+      11
+    );
+    const untangledSnakeS = untangleSnake(candidateSnakesAndFood.snakes.s);
+    expect(untangledSnakeS).toEqual([
+      { x: 3, y: 6 },
+      { x: 3, y: 7 },
+      { x: 4, y: 7 },
+      { x: 5, y: 7 },
+      { x: 6, y: 7 },
+      { x: 6, y: 6 },
+      { x: 6, y: 5 },
+      { x: 7, y: 5 },
+      { x: 7, y: 6 },
+      { x: 7, y: 7 },
+    ]);
+  });
+  /*
+  it('should do its best to handle a flood-fill snake efficiently', (): void => {
+    const candidateSnakesAndFood = candidateSnakesAndFoodFromMock(
+      floodFillSnake,
+      11,
+      11
+    );
+    const untangledSnakeS = untangleSnake(candidateSnakesAndFood.snakes.s);
+    expect(untangledSnakeS).toEqual([
+      { x: 10, y: 3 },
+      { x: 10, y: 2 },
+      { x: 9, y: 2 },
+      { x: 8, y: 2 },
+      { x: 7, y: 2 },
+      { x: 6, y: 2 },
+      { x: 5, y: 2 },
+      { x: 4, y: 2 },
+      { x: 3, y: 2 },
+      { x: 2, y: 2 },
+      { x: 1, y: 2 },
+      { x: 0, y: 2 },
+      { x: 0, y: 1 },
+      { x: 1, y: 1 },
+      { x: 2, y: 1 },
+      { x: 3, y: 1 },
+      { x: 4, y: 1 },
+      { x: 5, y: 1 },
+      { x: 6, y: 1 },
+      { x: 7, y: 1 },
+      { x: 8, y: 1 },
+      { x: 9, y: 1 },
+      { x: 10, y: 1 },
+      { x: 10, y: 0 },
+      { x: 9, y: 0 },
+      { x: 8, y: 0 },
+      { x: 7, y: 0 },
+      { x: 6, y: 0 },
+      { x: 5, y: 0 },
+      { x: 4, y: 0 },
+      { x: 3, y: 0 },
+      { x: 2, y: 0 },
+      { x: 1, y: 0 },
+      { x: 0, y: 0 },
+    ]);
+  });*/
 });
 
 describe('generate a game state from a scenario', (): void => {
   it('should generate a valid game state', (): void => {
-    const gameState = getGameStateFromMock(scenario1);
+    const gameState = getGameStateFromMock(snakesAndFood1);
     expect(gameState).toEqual({
       game: {
         id: 'generated-scenario',
@@ -209,7 +230,7 @@ describe('generate a game state from a scenario', (): void => {
   });
 
   it('should generate a single snake', (): void => {
-    const gameState = getGameStateFromMock(scenario2);
+    const gameState = getGameStateFromMock(singleHeadSnake);
     expect(gameState).toEqual({
       game: {
         id: 'generated-scenario',
@@ -238,7 +259,7 @@ describe('generate a game state from a scenario', (): void => {
   });
 
   it('should generate a head/tail snake', (): void => {
-    const gameState = getGameStateFromMock(scenario3);
+    const gameState = getGameStateFromMock(headAndTailSnake1);
     expect(gameState).toEqual({
       game: {
         id: 'generated-scenario',
@@ -272,7 +293,7 @@ describe('generate a game state from a scenario', (): void => {
     });
   });
   it('should generate a head/tail snake upside down', (): void => {
-    const gameState = getGameStateFromMock(scenario4);
+    const gameState = getGameStateFromMock(headAndTailSnake2);
     expect(gameState).toEqual({
       game: {
         id: 'generated-scenario',

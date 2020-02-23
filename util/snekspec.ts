@@ -124,7 +124,7 @@ function isAdjacent(a: ICoordinate, b: ICoordinate): boolean {
  * of snake body coordinates
  * @param snake
  */
-function untagleSnake(snake: Array<ICoordinate>): Array<ICoordinate> {
+function untangleSnake(snake: Array<ICoordinate>): Array<ICoordinate> {
   // if it's just a head and maybe one body and one tail,
   // just return, no untangling needed
   if (snake.length <= 3) {
@@ -142,7 +142,7 @@ function untagleSnake(snake: Array<ICoordinate>): Array<ICoordinate> {
     }
   }
 
-  // do BFS visiting every node once from head to tail
+  // do Breadth First Search visiting every node once from head to tail
   // because of the parsing step, src is always 0, dest is always length-1
   const src = 0;
   const dest = snake.length - 1;
@@ -167,13 +167,22 @@ function untagleSnake(snake: Array<ICoordinate>): Array<ICoordinate> {
       }
     }
   }
+
+  let longestPathLength = -1;
+  let longestPathIndex = 0;
+  for (let i = 0; i < pathsFound.length; i++) {
+    if (pathsFound[i].length > longestPathLength) {
+      longestPathLength = pathsFound[i].length;
+      longestPathIndex = i;
+    }
+  }
   assert(
-    pathsFound.length > 0,
+    longestPathLength === snake.length,
     `No valid path was found to untangle the snake ${snake}`
   );
 
   // return snake based on the final path
-  return pathsFound[0].map(index => snake[index]);
+  return pathsFound[longestPathIndex].map((i: number) => snake[i]);
 }
 
 function getGameStateFromMock(
@@ -196,7 +205,7 @@ function getGameStateFromMock(
   };
   const candidateBoard = candidateSnakesAndFoodFromMock(mock, height, width);
   Object.keys(candidateBoard.snakes).forEach(key => {
-    candidateBoard.snakes[key] = untagleSnake(candidateBoard.snakes[key]);
+    candidateBoard.snakes[key] = untangleSnake(candidateBoard.snakes[key]);
   });
 
   const gameState: IGameState = {
@@ -214,7 +223,7 @@ function getGameStateFromMock(
           id: key,
           name: key,
           health,
-          body: untagleSnake(snake),
+          body: untangleSnake(snake),
         })
       ),
     },
@@ -228,7 +237,7 @@ function getGameStateFromMock(
 export {
   candidateSnakesAndFoodFromMock,
   isAdjacent,
-  untagleSnake,
+  untangleSnake,
   getGameStateFromMock,
   getGameStateFromMock as default,
 };

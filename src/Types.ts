@@ -18,14 +18,14 @@ export interface IBoard {
 }
 
 export interface IGame {
-    id: string;
+  id: string;
 }
 
 export interface IGameState {
-    game: IGame;
-    turn: number;
-    board: IBoard;
-    you: ISnake;
+  game: IGame;
+  turn: number;
+  board: IBoard;
+  you: ISnake;
 }
 
 export type Matrix = number[][];

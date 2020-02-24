@@ -21,6 +21,7 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
+    'tests'
   ],
   testRegex: '(./__tests__/.*\\.|/)(test|spec)\\.(jsx?|tsx?)$',
   // prettier-ignore

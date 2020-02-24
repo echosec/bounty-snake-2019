@@ -11,7 +11,7 @@ import {
   headAndTailSnake1,
   headAndTailSnake2,
   curlySnake,
-} from './scenarios';
+} from './snekspec.scenarios';
 
 describe('snake scenario parsing and game state generation tests', (): void => {
   it('should parse the scenario and generate food', (): void => {

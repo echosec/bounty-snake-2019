@@ -22,7 +22,7 @@ module.exports = {
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
   ],
-  testRegex: '(./__tests__/.*| (\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+  testRegex: '(./__tests__/.*\\.|/)(test|spec)\\.(jsx?|tsx?)$',
   // prettier-ignore
   moduleFileExtensions: [
     'ts',

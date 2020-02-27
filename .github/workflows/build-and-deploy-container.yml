@@ -17,7 +17,7 @@ jobs:
         run: |
           IMAGE_TAG=$(git rev-parse --short=7 $GITHUB_SHA)
           echo ::set-output name=image_tag::$IMAGE_TAG
-          echo $IMAGE_TAG
+          echo 'IMAGE_TAG:' $IMAGE_TAG
       # - name: Publish latest tag to GitHub Packages
       #   uses: matootie/github-docker@v2.2.2
       #   with:
@@ -37,3 +37,6 @@ jobs:
             -H "Authorization: Bearer ${DIGITALOCEAN_API_KEY}" \
             -d {"type": "rebuild", "image": "docker-18-04"} \
             "https://api.digitalocean.com/v2/droplets/${DIGITALOCEAN_DROPLET_ID}/actions"
+        env:
+          DIGITALOCEAN_API_KEY: ${{ secrets.DIGITALOCEAN_API_KEY }}
+          DIGITALOCEAN_DROPLET_ID: ${{ secrets.DIGITALOCEAN_DROPLET_ID }}

@@ -18,11 +18,11 @@ jobs:
           IMAGE_TAG=$(git rev-parse --short=7 $GITHUB_SHA)
           echo ::set-output name=image_tag::$IMAGE_TAG
           echo $IMAGE_TAG
-      # - name: Publish latest tag to GitHub Packages
-      #   uses: matootie/github-docker@v2.2.2
-      #   with:
-      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
-      #     imageTag: "latest"
+      - name: Publish latest tag to GitHub Packages
+        uses: matootie/github-docker@v2.2.2
+        with:
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          imageTag: "latest"
       - name: Publish short SHA tag to GitHub Packages
         uses: matootie/github-docker@v2.2.2
         with:

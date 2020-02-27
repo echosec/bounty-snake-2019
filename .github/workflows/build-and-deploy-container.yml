@@ -31,7 +31,7 @@ jobs:
       - name: Rebuild droplet
         if: success()
         run: |
-          curl -s -f \
+          curl -s \
             -X POST \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${DIGITALOCEAN_API_KEY}" \

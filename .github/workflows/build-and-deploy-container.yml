@@ -18,25 +18,20 @@ jobs:
           IMAGE_TAG=$(git rev-parse --short=7 $GITHUB_SHA)
           echo ::set-output name=image_tag::$IMAGE_TAG
           echo 'IMAGE_TAG:' $IMAGE_TAG
-      # - name: Publish latest tag to GitHub Packages
-      #   uses: matootie/github-docker@v2.2.2
-      #   with:
-      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
-      #     imageTag: "latest"
       - name: Publish short SHA tag to GitHub Packages
         uses: matootie/github-docker@v2.2.2
         with:
           accessToken: ${{ secrets.GITHUB_TOKEN }}
           imageTag: ${{ steps.vars.outputs.image_tag }}
-      - name: Rebuild droplet
+      # - name: Publish latest tag to GitHub Packages
+      #   uses: matootie/github-docker@v2.2.2
+      #   with:
+      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
+      #     imageTag: "latest"
+      - name: Rebuild DO Droplet to pull latest image
         if: success()
-        run: |
-          curl -s \
-            -X POST \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${DIGITALOCEAN_API_KEY}" \
-            -d {"type": "rebuild", "image": "docker-18-04"} \
-            "https://api.digitalocean.com/v2/droplets/${DIGITALOCEAN_DROPLET_ID}/actions"
+        uses: digitalocean/action-doctl@master
         env:
-          DIGITALOCEAN_API_KEY: ${{ secrets.DIGITALOCEAN_API_KEY }}
-          DIGITALOCEAN_DROPLET_ID: ${{ secrets.DIGITALOCEAN_DROPLET_ID }}
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_API_KEY }}
+        with:
+          args: compute droplet-action rebuild ${{ secrets.DIGITALOCEAN_DROPLET_ID }} --image docker-18-04

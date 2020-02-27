@@ -12,20 +12,22 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+      - name: Get the short SHA of the commit
+        id: vars
+        run: |
+          IMAGE_TAG=$(git rev-parse --short=7 $GITHUB_SHA)
+          echo ::set-output name=image_tag::$IMAGE_TAG
+          echo $IMAGE_TAG
       # - name: Publish latest tag to GitHub Packages
       #   uses: matootie/github-docker@v2.2.2
       #   with:
       #     accessToken: ${{ secrets.GITHUB_TOKEN }}
       #     imageTag: "latest"
-      - name: Get the short SHA of the commit
-        id: vars
-        run: |
-          echo ::set-output name=IMAGE_TAG::$(echo $GITHUB_SHA | cut -d'' -f 7)
       - name: Publish short SHA tag to GitHub Packages
         uses: matootie/github-docker@v2.2.2
         with:
           accessToken: ${{ secrets.GITHUB_TOKEN }}
-          imageTag: ${{ steps.vars.outputs.IMAGE_TAG }}
+          imageTag: ${{ steps.vars.outputs.image_tag }}
       - name: Rebuild droplet
         if: success()
         run: |

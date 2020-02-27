@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: Publish latest tag to GitHub Packages
-        uses: matootie/github-docker@v2.2.2
-        with:
-          accessToken: ${{ secrets.GITHUB_TOKEN }}
-          imageTag: "latest"
+      # - name: Publish latest tag to GitHub Packages
+      #   uses: matootie/github-docker@v2.2.2
+      #   with:
+      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
+      #     imageTag: "latest"
       - name: Get the short SHA of the commit
         id: vars
         run: |

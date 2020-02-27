@@ -23,11 +23,11 @@ jobs:
         with:
           accessToken: ${{ secrets.GITHUB_TOKEN }}
           imageTag: ${{ steps.vars.outputs.image_tag }}
-      # - name: Publish latest tag to GitHub Packages
-      #   uses: matootie/github-docker@v2.2.2
-      #   with:
-      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
-      #     imageTag: "latest"
+      - name: Publish latest tag to GitHub Packages
+        uses: matootie/github-docker@v2.2.2
+        with:
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          imageTag: "latest"
       - name: Rebuild DO Droplet to pull latest image
         if: success()
         uses: digitalocean/action-doctl@master

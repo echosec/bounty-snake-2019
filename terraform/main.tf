@@ -30,7 +30,7 @@ resource "digitalocean_droplet" "bounty_snake_droplet" {
     #cloud-config
     runcmd:
       - docker pull docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:latest
-      - docker run -t -d -p 80:5000 docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020
+      - docker run -t -d -p 80:5000 docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:latest
     EOM
 }
 

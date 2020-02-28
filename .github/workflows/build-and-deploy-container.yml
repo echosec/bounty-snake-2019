@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - rebuild-droplet-when-container-built
 
 jobs:
   build_image:

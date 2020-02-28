@@ -23,7 +23,8 @@ export default class SnakeBrain {
    */
   public decide(): SnakeBrain {
     // Logic for start of game.
-    console.log(turn);
+    // eslint-disable-next-line array-element-newline
+    console.log([turn, game, board, us]);
 
     if (turn === 0) {
       // Eat something, you look hungry.

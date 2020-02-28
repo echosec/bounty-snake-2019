@@ -1,5 +1,5 @@
 import { IGameState, ISnake, IBoard, IGame, Directions } from './Types';
-// I hate writing this. all the time.
+// I hate writing "this." all the time.
 let game: IGame;
 let turn: number;
 let board: IBoard;
@@ -15,6 +15,12 @@ export default class SnakeBrain {
     us = gameStateResponse.you;
   }
 
+  /**
+   * Where a whole lot of IF/ELSE is going to happen.
+   * This function will determine what behaviours to act upon depending on game state.
+   *
+   * @returns {SnakeBrain}
+   */
   public decide(): SnakeBrain {
     // Logic for start of game.
     console.log(turn);
@@ -29,6 +35,11 @@ export default class SnakeBrain {
     return this;
   }
 
+  /**
+   * This direction this snake will take in it's short but exciting life.
+   *
+   * @returns {Directions}
+   */
   public act(): Directions {
     return this.action;
   }

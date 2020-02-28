@@ -7,9 +7,7 @@ describe('GameState Class Tests', () => {
   test('Class creation and default move', () => {
     // Arrange & Act
     const mockGameStateObject = getGameStateFromMock(headAndTailSnake1);
-    const snakeBrain = new SnakeBrain(mockGameStateObject);
-    const direction = snakeBrain.decide().act();
-
+    const direction = new SnakeBrain(mockGameStateObject).decide().act();
     // Assert
     expect(direction).toBe(Directions.LEFT);
   });

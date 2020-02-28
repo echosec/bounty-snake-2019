@@ -67,10 +67,8 @@ export default class Pathfinder {
       start.y,
       target.x,
       target.y,
-      this.grid
+      pfGrid
     );
-
-    console.log(path);
 
     // If a path is found, return it
     if (path && path.length) {

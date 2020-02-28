@@ -1,4 +1,4 @@
-import { IBoard, ISnake } from '../Types';
+import { ISnake } from '../Types';
 import Pathfinder from '../Pathfinder';
 
 const us: ISnake = {
@@ -45,7 +45,7 @@ describe('Pathfinder', () => {
   test('should accept a board and a snake on instantiation', () => {
     const move = PF.getStep(us.body[0], { x: 4, y: 8});
 
-    expect(move).toBe('up');
+    expect(move).toBe('left');
   });
 });
   

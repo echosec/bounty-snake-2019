@@ -1,5 +1,5 @@
 import { Directions, IBoard, ICoordinate, ISnake, Matrix } from './Types';
-import PF = require('../node_modules/pathfinding');
+import PF = require('pathfinding');
 
 const SAFE = 0;
 const NOPE = 1;
@@ -17,10 +17,10 @@ const NOPE = 1;
  *  TODO: Add a 'printGameState' function that logs a visual representation of the board
  *  and the game state for use in debugging
  */
-export class Pathfinder {
+export default class Pathfinder {
   private grid: Matrix;
 
-  private constructor(board: IBoard, snakes: ISnake[]) {
+  public constructor(board: IBoard, snakes: ISnake[]) {
     // Create a representation of the board for use in pathfinding
     this.grid = this.createGrid(board);
     this.grid = this.addSnakesToGrid(this.grid, snakes);
@@ -69,6 +69,8 @@ export class Pathfinder {
       target.y,
       this.grid
     );
+
+    console.log(path);
 
     // If a path is found, return it
     if (path && path.length) {

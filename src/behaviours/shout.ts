@@ -16,6 +16,6 @@ export const shout = (board: IBoard, us: ISnake): Directions => {
   const neck: ICoordinate = us.body[1];
 
   return pf.getStep(head, neck);
-}
+};
 
 export default shout;

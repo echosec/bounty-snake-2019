@@ -37,7 +37,7 @@ export default class SnakeBrain {
   }
 
   /**
-   * The direction this snake will take in it's short but exciting life.
+   * The direction this snake will take in its short but exciting life.
    *
    * @returns {Directions}
    */

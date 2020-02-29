@@ -8,12 +8,12 @@ import Pathfinder from '../Pathfinder';
  */
 export const chaseTail = (board: IBoard, us: ISnake): Directions => {
   const snakes: ISnake[] = board.snakes;
-  const pf = new Pathfinder(board, snakes);
+  const PF = new Pathfinder(board, snakes);
 
   const head: ICoordinate = us.body[0];
   const tail: ICoordinate = us.body[us.body.length - 1];
 
-  return pf.getStep(head, tail);
+  return PF.getStep(head, tail);
 };
 
 export default chaseTail;

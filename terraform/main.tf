@@ -31,9 +31,12 @@ resource "digitalocean_droplet" "bounty_snake_droplet" {
       - docker run -t -d -p 80:5000 --env VERSION=${var.image_tag} --restart=unless-stopped docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:${var.image_tag}
     EOM
 
-  # https://www.hashicorp.com/blog/zero-downtime-updates-with-terraform/
   lifecycle {
     create_before_destroy = true
+  }
+
+  provisioner "local-exec" {
+    command = "./check_health.sh ${self.ipv4_address}"
   }
 }
 
@@ -82,4 +85,8 @@ resource "digitalocean_firewall" "bounty_snake_firewall" {
 resource "digitalocean_floating_ip_assignment" "bounty_snake_ip" {
   ip_address = var.floating_ip
   droplet_id = digitalocean_droplet.bounty_snake_droplet.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

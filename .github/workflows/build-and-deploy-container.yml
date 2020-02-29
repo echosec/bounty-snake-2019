@@ -8,30 +8,30 @@ on:
       - dynamically-pull-droplet-id
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-      # - uses: actions/checkout@v2
-      # - name: Get the short SHA of the commit
-      #   id: vars
-      #   run: |
-      #     IMAGE_TAG=$(git rev-parse --short=7 $GITHUB_SHA)
-      #     echo ::set-output name=image_tag::$IMAGE_TAG
-      #     echo 'IMAGE_TAG:' $IMAGE_TAG
-      # - name: Publish short SHA tag to GitHub Packages
-      #   uses: matootie/github-docker@v2.2.2
-      #   with:
-      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
-      #     imageTag: ${{ steps.vars.outputs.image_tag }}
-      # - name: Publish latest tag to GitHub Packages
-      #   uses: matootie/github-docker@v2.2.2
-      #   with:
-      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
-      #     imageTag: "latest"
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get the short SHA of the commit
+        id: vars
+        run: |
+          IMAGE_TAG=$(git rev-parse --short=7 $GITHUB_SHA)
+          echo ::set-output name=image_tag::$IMAGE_TAG
+          echo 'IMAGE_TAG:' $IMAGE_TAG
+      - name: Publish short SHA tag to GitHub Packages
+        uses: matootie/github-docker@v2.2.2
+        with:
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          imageTag: ${{ steps.vars.outputs.image_tag }}
+      - name: Publish latest tag to GitHub Packages
+        uses: matootie/github-docker@v2.2.2
+        with:
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          imageTag: "latest"
 
   deploy:
     runs-on: ubuntu-18.04
-    # needs: build
+    needs: build
     steps:
       - uses: actions/checkout@v2
       - name: List all Droplets
@@ -41,18 +41,16 @@ jobs:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_API_KEY }}
         with:
           args: compute droplet list 'echosec-bounty-snake' > $GITHUB_WORKSPACE/droplets_list.json
-      - name: Get the Droplet ID from the previous step output
+      - name: Set the Droplet ID var
+        id: droplet_id
         run: |
-          cat $GITHUB_WORKSPACE/droplets_list.json
-          droplets_json=$(cat $GITHUB_WORKSPACE/droplets_list.json)
-          echo "Droplets: " $droplets_json
-          droplet_id=$(echo $droplets_json | jq --raw-output ".[].id")
-          echo "Droplet ID: " $droplet_id
-
-      # - name: Rebuild DO Droplet to pull latest image
-      #   if: success()
-      #   uses: digitalocean/action-doctl@master
-      #   env:
-      #     DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_API_KEY }}
-      #   with:
-      #     args: compute droplet-action rebuild ${{ secrets.DIGITALOCEAN_DROPLET_ID }} --image docker-18-04 --verbose
+          DROPLET_ID=$(cat $GITHUB_WORKSPACE/droplets_list.json | jq --raw-output ".[].id")
+          echo ::set-output name=droplet_id::$DROPLET_ID
+          echo "Droplet ID: " $DROPLET_ID
+      - name: Rebuild DO Droplet to pull latest image
+        if: success()
+        uses: digitalocean/action-doctl@master
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_API_KEY }}
+        with:
+          args: compute droplet-action rebuild ${{ steps.droplet_id.outputs.droplet_id }} --image docker-18-04 --verbose

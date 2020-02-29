@@ -27,9 +27,14 @@ resource "digitalocean_droplet" "bounty_snake_droplet" {
     #cloud-config
     runcmd:
       - docker login docker.pkg.github.com -u ${var.github_username} -p ${var.github_token}
-      - docker pull docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:latest
-      - docker run -t -d -p 80:5000 docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:latest
+      - docker pull docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:${var.image_tag}
+      - docker run -t -d -p 80:5000 --env VERSION=${var.image_tag} --restart=unless-stopped docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:${var.image_tag}
     EOM
+
+  # https://www.hashicorp.com/blog/zero-downtime-updates-with-terraform/
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "digitalocean_firewall" "bounty_snake_firewall" {

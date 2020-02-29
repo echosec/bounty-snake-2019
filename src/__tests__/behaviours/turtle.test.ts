@@ -1,5 +1,5 @@
 import { ISnake, IBoard, Directions } from '../../Types';
-import { shout } from '../../behaviours/shout';
+import { turtle } from '../../behaviours/turtle';
 import { gameState } from '../fixtures/Gamestate';
 
 describe('Shouting', () => {
@@ -10,7 +10,7 @@ describe('Shouting', () => {
     const nextMove: string = Directions.LEFT;
 
     // Act
-    const mockShout = shout(board, us);
+    const mockShout = turtle(board, us);
 
     expect(mockShout).toBe(nextMove);
   });

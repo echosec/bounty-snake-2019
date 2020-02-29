@@ -2,13 +2,13 @@ import { ISnake, IBoard, ICoordinate, Directions } from '../Types';
 import Pathfinder from '../Pathfinder';
 
 /**
- * Shout, shout, let it all out!
+ * Turtle cower!
  *
  * @param {IBoard} board - the board state
  * @param {ISnake} us - our snake
  * @returns {Directions} returns the next direction
  */
-export const shout = (board: IBoard, us: ISnake): Directions => {
+export const turtle = (board: IBoard, us: ISnake): Directions => {
   const snakes: ISnake[] = board.snakes;
   const pf = new Pathfinder(board, snakes);
 
@@ -18,4 +18,4 @@ export const shout = (board: IBoard, us: ISnake): Directions => {
   return pf.getStep(head, neck);
 };
 
-export default shout;
+export default turtle;

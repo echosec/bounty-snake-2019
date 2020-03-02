@@ -20,11 +20,11 @@ describe('canKillNemesis', () => {
   });
 
   test('should return false if we are shorter than our nemesis', () => {
-    const bodyDouble = {...us};
+    const bodyDouble = { ...us };
     bodyDouble.body = [
       {
         x: 0,
-        y: 0
+        y: 0,
       },
     ];
     const shouldMurder = helpers.canKillNemesis(

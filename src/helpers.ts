@@ -27,7 +27,6 @@ export function canKillNemesis(us: ISnake, snakes: ISnake[]): boolean {
  * @param {ISnake[]} snakes - all the snakes
  */
 export function getOtherSnakes(us: ISnake, snakes: ISnake[]): ISnake[] {
-  // There should only ever be 1 snake that has a different name
   return snakes.filter(snake => snake.id !== us.id);
 }
 

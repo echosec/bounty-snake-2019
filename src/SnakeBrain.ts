@@ -35,11 +35,12 @@ export default class SnakeBrain {
     // OH NO!
     if (
       board.snakes.some((s: ISnake) => {
-        console.log('AHHHHHH');
         return s.shout === 'TURTLE COWER';
       })
     ) {
+      console.log('AHHHHHH');
       this.action = turtle(board, us);
+      console.log(turtle(board, us));
     }
 
     // Default action

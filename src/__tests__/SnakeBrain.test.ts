@@ -9,7 +9,9 @@ import { Directions } from './../Types';
 describe('GameState Class Tests', () => {
   test('Class creation from mock and default move', () => {
     // Arrange & Act
-    const mockGameStateObject = getGameStateFromMock(headAndTailSnake1);
+    const mockGameStateObject = getGameStateFromMock(headAndTailSnake1, {
+      turn: 10,
+    });
     const direction = new SnakeBrain(mockGameStateObject).decide().act();
     // Assert
     expect(direction).toBe(Directions.LEFT);
@@ -28,7 +30,7 @@ describe('GameState Class Tests', () => {
   test('Shout, shout, let it all out', () => {
     // Arrange & Act
     const mockGameStateObject = getGameStateFromMock(snakesAndFood1, {
-      turn: 10,
+      turn: 2,
     });
     mockGameStateObject.board.snakes[0].shout = 'TURTLE COWER';
 

@@ -14,4 +14,3 @@ export const chaseTail = (PF: Pathfinder, us: ISnake): Directions => {
 };
 
 export default chaseTail;
-

@@ -2,7 +2,7 @@ import { ISnake, ICoordinate, Directions } from '../Types';
 import Pathfinder from '../Pathfinder';
 
 /**
- * @param {IBoard} board - the board state
+ * @param {Pathfinder} PF - Pathfinder class initialized with game state
  * @param {ISnake} us - our snake
  * @returns {Directions} returns the next direction
  */

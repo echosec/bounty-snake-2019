@@ -72,7 +72,9 @@ export default class Pathfinder {
 
     // If a path is found, return it
     if (path && path.length) {
-      return path;
+      // The path includes our own head as the first element of the arrahy. We need to remove it.
+      path.shift();
+      return path
     }
 
     // If not, return an empty array
@@ -155,15 +157,15 @@ export default class Pathfinder {
       return null;
     }
 
-    if ((delta.x = -1)) {
+    if ((delta.x === 1)) {
       return Directions.LEFT;
     }
 
-    if ((delta.x = 1)) {
+    if ((delta.x === -1)) {
       return Directions.RIGHT;
     }
 
-    if ((delta.y = -1)) {
+    if ((delta.y === 1)) {
       return Directions.UP;
     }
 

@@ -1,4 +1,4 @@
-import { ICoordinate, ISnake, Matrix } from './Types';
+import { ICoordinate, ISnake, Matrix, IBoard } from './Types';
 import Pathfinder from './Pathfinder';
 
 /**
@@ -74,4 +74,12 @@ export function firstToFood(
  */
 export function manhattanDistance(a: ICoordinate, b: ICoordinate): number {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+
+
+export function isCorner(coordinate: ICoordinate, board: IBoard) {
+  return (coordinate.x === 0 && coordinate.y === 0)
+    || (coordinate.x === board.width - 1 && coordinate.y === 0)
+    || (coordinate.x === 0 && coordinate.y === board.height - 1)
+    || (coordinate.x === board.width - 1 && coordinate.y === board.height - 1);
 }

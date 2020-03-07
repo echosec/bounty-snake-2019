@@ -1,3 +1,4 @@
+import { manhattanDistance, isCorner } from '../helpers';
 import { ISnake, ICoordinate, Matrix } from '../Types';
 
 const visited = new Set;
@@ -71,8 +72,40 @@ function traverse(arr: Matrix, x: number, y: number, path: string[] = []): strin
   return path;
 }
 
-function findAdjacent(us: ISnake, walkableRegions: ICoordinate[][]) {
-  walkableRegions.forEach((region) => {
-    if (region)
-  });
+export function findAdjacent(us: ISnake, walkableRegions: ICoordinate[][]): ICoordinate[] {
+  const ourHead = us.body[0];
+  const adjacentRegions: ICoordinate[][] = [];
+
+  for (const region of walkableRegions) {
+    for (const coordinate of region) {
+      if (manhattanDistance(coordinate, ourHead) === 1) {
+        adjacentRegions.push(region);
+        break;
+      }
+    }
+  }
+
+  if (adjacentRegions.length === 0) {
+    return;
+  }
+
+  return adjacentRegions
+    .reduce((a, b) => (a.length > b.length ? a : b), []);
+}
+
+export function findFurthestTarget(us: ISnake, region: ICoordinate[]) {
+  const ourHead = us.body[0];
+  let greatestDistance = 0;
+  let furthestTarget: ICoordinate = null;
+
+  for (const coordinate of region) {
+    const distance = manhattanDistance(coordinate, ourHead);
+
+    if (distance > greatestDistance && !isCorner(coordinate, board)) {
+      greatestDistance = distance;
+      furthestTarget = coordinate;
+    }
+  }
+
+  return furthestTarget;
 }

@@ -10,17 +10,20 @@ const visited = new Set;
 function findWalkable(arr) {
   const walkable = [];
 
-  // Iterate the rows and columns
+  // Iterate over the rows and columns
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr[i].length; j++) {
+      // If the node is in the set, continue
       if (visited.has(`${i},${j}`)) {
         continue;
       }
 
-      const node = traverse(i, j);
+      // If not, kick off a traversal and get
+      // the area
+      const area = traverse(i, j);
 
-      if (node) {
-        walkable.push(node);
+      if (area) {
+        walkable.push(area);
       }
     }
   }
@@ -41,7 +44,7 @@ function traverse(x: number, y: number, current = []) {
   }
 
   // If the space is walkable, add it to the current array and
-  // the visited set, then traverse each neighbouring node
+  // the visited set, then recursively traverse each neighbouring node
   current.push(`${x},${y}`);
   visited.add(`${x},${y}`)
   traverse(x, y + 1, current);
@@ -56,7 +59,3 @@ function traverse(x: number, y: number, current = []) {
 function findAdjacent() {
 
 }
-
-let lands = findLand(arr)
-console.log("lands found: ", lands.length)
-console.log("lands: ", lands)

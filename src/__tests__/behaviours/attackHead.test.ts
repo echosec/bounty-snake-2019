@@ -7,7 +7,7 @@ describe('Attacking', () => {
     // Arrange
     const board: IBoard = gameState.board;
     const us: ISnake = gameState.board.snakes[0];
-    const nextMove: string = Directions.LEFT;
+    const nextMove: string = Directions.UP;
 
     // Act
     const mockAttack = attackHead(board, us);

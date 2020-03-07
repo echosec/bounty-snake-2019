@@ -157,19 +157,18 @@ export default class Pathfinder {
       return null;
     }
 
+    if (delta.x === -1) {
+      return Directions.RIGHT;
+    }
     if (delta.x === 1) {
       return Directions.LEFT;
     }
 
-    if (delta.x === -1) {
-      return Directions.RIGHT;
+    if (delta.y === -1) {
+      return Directions.DOWN;
     }
 
-    if (delta.y === 1) {
-      return Directions.UP;
-    }
-
-    return Directions.DOWN;
+    return Directions.UP;
   }
 
   /**

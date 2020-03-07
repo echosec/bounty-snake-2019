@@ -1,5 +1,6 @@
 import { manhattanDistance, isCorner } from '../helpers';
-import { ISnake, ICoordinate, Matrix } from '../Types';
+import { ISnake, ICoordinate, Matrix, IBoard } from '../Types';
+import { pathToFileURL } from 'url';
 
 const visited = new Set;
 
@@ -93,7 +94,7 @@ export function findAdjacent(us: ISnake, walkableRegions: ICoordinate[][]): ICoo
     .reduce((a, b) => (a.length > b.length ? a : b), []);
 }
 
-export function findFurthestTarget(us: ISnake, region: ICoordinate[]) {
+export function findFurthestTarget(us: ISnake, region: ICoordinate[], board: IBoard) {
   const ourHead = us.body[0];
   let greatestDistance = 0;
   let furthestTarget: ICoordinate = null;
@@ -108,4 +109,23 @@ export function findFurthestTarget(us: ISnake, region: ICoordinate[]) {
   }
 
   return furthestTarget;
+}
+
+export function getSinglePath(start: ICoordinate, region: ICoordinate[], beenHere: Set<String>, path = []) {
+  let current = start;
+  if (beenHere.has(`${current.x},${current.y}`)) {
+    return;
+  }
+
+  beenHere.add(`${current.x},${current.y}`);
+
+  for (const coordinate of region) {
+    if (manhattanDistance(coordinate, current) === 1) {
+      path.push([coordinate.x, coordinate.y]);
+      current = coordinate;
+
+      getSinglePath(current, region, beenHere, path);
+      return path;
+    }
+  }
 }

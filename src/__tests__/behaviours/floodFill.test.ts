@@ -1,5 +1,5 @@
 import { ISnake, IBoard, Directions } from '../../Types';
-import { findAdjacent, findWalkable } from '../../behaviours/floodFill';
+import { findAdjacent, findWalkable, getSinglePath } from '../../behaviours/floodFill';
 import { gameState } from '../fixtures/Gamestate';
 
 describe('floodFill', () => {
@@ -14,6 +14,8 @@ describe('floodFill', () => {
       }
     ];
 
+    const path = [];
+
     var arr = [
       [1, 1, 0, 1, 0],
       [1, 1, 0, 1, 0],
@@ -22,9 +24,12 @@ describe('floodFill', () => {
       [0, 0, 1, 1, 1]
     ];
 
+    const beenHere = new Set<String>();
+
     // Act
     const walkable = findWalkable(arr);
-    const flood = findAdjacent(us, walkable);
+    const region = findAdjacent(us, walkable);
+    const flood = getSinglePath(us.body[0], region, beenHere);
 
     console.log(flood);
   });

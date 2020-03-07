@@ -3,7 +3,7 @@ import { attackHead } from '../../behaviours/attackHead';
 import { gameState } from '../fixtures/Gamestate';
 
 describe('Attacking', () => {
-  test('should make a move to attack the enemy snake\'s head', () => {
+  test("should make a move to attack the enemy snake's head", () => {
     // Arrange
     const board: IBoard = gameState.board;
     const us: ISnake = gameState.board.snakes[0];

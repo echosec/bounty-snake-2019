@@ -19,4 +19,4 @@ export const attackHead = (board: IBoard, us: ISnake): Directions => {
   const enemyHead: ICoordinate = enemySnake.body[0];
 
   return pf.getStep(ourHead, enemyHead);
-}
+};

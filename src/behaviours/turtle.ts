@@ -17,4 +17,3 @@ export const turtle = (board: IBoard, us: ISnake): Directions => {
 
   return pf.getStep(head, neck);
 };
-

@@ -72,7 +72,7 @@ export default class Pathfinder {
 
     // If a path is found, return it
     if (path && path.length) {
-      // The path includes our own head as the first element of the arrahy. We need to remove it.
+      // The path includes our own head as the first element of the array. We need to remove it.
       path.shift();
       return path
     }

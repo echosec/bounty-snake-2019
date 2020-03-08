@@ -102,6 +102,8 @@ function findLargestAdjacentRegion(
   const ourHead = us.body[0];
   const adjacentRegions: ICoordinate[][] = [];
 
+  // For each region, determine if it
+  // is accessible to us
   for (const region of walkableRegions) {
     for (const coordinate of region) {
       if (manhattanDistance(coordinate, ourHead) === 1) {
@@ -111,10 +113,12 @@ function findLargestAdjacentRegion(
     }
   }
 
+  // If no regions are accessible, we're friggin' DEAD!
   if (adjacentRegions.length === 0) {
-    return;
+    return null;
   }
 
+  // Reduce to the largest region
   return adjacentRegions.reduce((a, b) => (a.length > b.length ? a : b), []);
 }
 

@@ -139,7 +139,7 @@ function getPaths(
   path.push(current);
   // Add the current node to the set of visited nodes
   visitedNodes.add(JSON.stringify(current));
-  // Create an array of
+  // Create an array of the possible coordinates to move into
   const left = { x: current.x - 1, y: current.y };
   const right = { x: current.x + 1, y: current.y };
   const up = { x: current.x, y: current.y - 1 };
@@ -149,6 +149,7 @@ function getPaths(
 
   for (const move of moves) {
     for (const node of region) {
+      // Have we been here before? Time is a flat circle
       if (isEquivalent(node, move) && !visitedNodes.has(JSON.stringify(move))) {
         getPaths(region, move, path, visitedNodes);
         return;

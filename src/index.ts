@@ -11,7 +11,9 @@ import SnakeBrain from '../src/SnakeBrain';
 import { IGameState } from '../src/Types';
 import redis from 'redis';
 
-const client = redis.createClient();
+const REDIS_HOST = process.env.REDIS_HOST || 'localhost';
+const REDIS_PORT = process.env.REDIS_PORT || 6379;
+const client = redis.createClient(REDIS_PORT, REDIS_HOST);
 
 client.on('connect', () => {
   console.log('Redis connected');

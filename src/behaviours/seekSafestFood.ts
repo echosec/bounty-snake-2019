@@ -10,7 +10,7 @@ import { chaseEnemyTail } from './chaseEnemyTail';
  * to check where our body will be should we dine.
  * @returns {Directions} returns the next direction
  */
-function checkPostNibleOption(
+function checkPostNibbleOption(
   PF: Pathfinder,
   snakes: ISnake[],
   futureUs: ISnake
@@ -54,10 +54,10 @@ export const seekSafestFood = (
       }
       const futureUs = { ...us, body: futureBody };
       // Make sure we have somewhere to go after eating. We will check if there is a snake tail to chase.
-      const postNibleOption = checkPostNibleOption(PF, snakes, futureUs);
+      const postNibbleOption = checkPostNibbleOption(PF, snakes, futureUs);
       if (
         winnerWinnerChickenDinner &&
-        postNibleOption &&
+        postNibbleOption &&
         (!pathToSafestFood || pathToSnack < pathToSafestFood)
       ) {
         pathToSafestFood = pathToSnack;

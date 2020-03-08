@@ -62,7 +62,7 @@ describe('GameState Class Tests', () => {
     expect(direction).toBe(Directions.RIGHT);
   });
 
-  test('(Turn around, bright eyes) every now and then I fall apart, should chase its tale', () => {
+  test("Mouth is alive with juices like wine, and I'm hungry like the wolf", () => {
     let direction = new SnakeBrain(
       getGameStateFromMock(
         `-----------
@@ -82,67 +82,67 @@ describe('GameState Class Tests', () => {
     )
       .decide()
       .act();
-    expect(direction).toBe(Directions.RIGHT);
+    expect(direction).toBe(Directions.UP);
     direction = new SnakeBrain(
       getGameStateFromMock(
         `-----------
-         -----------
-         -------0---
-         -----------
-         ----tS-----
-         ----T------
-         -----------
-         -----------
-         --0--------
-         -----------
-         -----------`,
+        -----------
+        -------0---
+        ----S------
+        ----s------
+        ----T------
+        -----------
+        -----------
+        --0--------
+        -----------
+        -----------`,
         { turn: 9 }
       ),
       false
     )
       .decide()
       .act();
-    expect(direction).toBe(Directions.DOWN);
-    direction = new SnakeBrain(
-      getGameStateFromMock(
-        `-----------
-         -----------
-         -------0---
-         -----------
-         ----Tt-----
-         -----S-----
-         -----------
-         -----------
-         --0--------
-         -----------
-         -----------`,
-        { turn: 8 }
-      ),
-      false
-    )
-      .decide()
-      .act();
-    expect(direction).toBe(Directions.LEFT);
-    direction = new SnakeBrain(
-      getGameStateFromMock(
-        `-----------
-         -----------
-         -------0---
-         -----------
-         -----T-----
-         ----St-----
-         -----------
-         -----------
-         --0--------
-         -----------
-         -----------`,
-        { turn: 8 }
-      ),
-      false
-    )
-      .decide()
-      .act();
     expect(direction).toBe(Directions.UP);
+    direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-----------
+        -----------
+        ----S--0---
+        ----s------
+        ----T------
+        -----------
+        -----------
+        -----------
+        --0--------
+        -----------
+        -----------`,
+        { turn: 8 }
+      ),
+      false
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.RIGHT);
+    direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-----------
+        -----------
+        ----sS-0---
+        ----T------
+        -----------
+        -----------
+        -----------
+        -----------
+        --0--------
+        -----------
+        -----------`,
+        { turn: 8 }
+      ),
+      false
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.RIGHT);
   });
 
   test('if we can chase an enemy tail we should', () => {

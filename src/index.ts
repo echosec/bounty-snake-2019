@@ -49,7 +49,7 @@ app.post('/start', (request, response) => {
 
   // Response data
   const data = {
-    color: '#DFFF00',
+    color: Math.round(Math.random()) === 1 ? '#1A2F4B' : '#EB7963',
   };
 
   return response.json(data);
@@ -59,12 +59,14 @@ app.post('/start', (request, response) => {
 app.post('/move', (request, response) => {
   // Pass current game state and whether it's quittin time
   const currentGameState: IGameState = request.body;
-  const snakeBrain = new SnakeBrain(currentGameState, giveUp);
-  snakeBrain.decide();
+  const brain = new SnakeBrain(currentGameState, giveUp);
 
+  brain.decide();
+
+  const direction = brain.act();
   // Response data
   const data = {
-    move: 'up', // one of: ['up','down','left','right']
+    move: direction, // one of: ['up','down','left','right']
   };
 
   return response.json(data);

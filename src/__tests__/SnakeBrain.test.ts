@@ -39,7 +39,7 @@ describe('GameState Class Tests', () => {
     const mockGameStateObject = getGameStateFromMock(snakesAndFood1, {
       turn: 2,
     });
-    const exploit = true;
+    exploit = true;
 
     const direction = new SnakeBrain(mockGameStateObject, exploit)
       .decide()

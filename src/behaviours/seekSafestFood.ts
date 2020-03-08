@@ -33,7 +33,7 @@ function checkPostNibbleOption(
  * @param us - us!
  * @param board - the game board
  */
-function canWeGetAway(pathToSnack: Matrix, us: ISnake, board: IBoard) {
+function canWeGetAway(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   // This is us after we hit our fitness goals
   const futureBody = [];
   // Map where our body will be when we eat food.

@@ -39,12 +39,137 @@ describe('GameState Class Tests', () => {
     const mockGameStateObject = getGameStateFromMock(snakesAndFood1, {
       turn: 2,
     });
-    exploit = true;
+    const exploit = true;
 
     const direction = new SnakeBrain(mockGameStateObject, exploit)
       .decide()
       .act();
     // Assert
     expect(direction).toBe(Directions.DOWN);
+  });
+
+  test('Go for the headbutt, should attack smaller weaker sneks', () => {
+    const direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-----------
+         -----------
+         ------V0---
+         ------v----
+         ----S-U----
+         ----t------
+         ----t------
+         ----T------
+         --0--------
+         -----------
+         -----------`,
+        { turn: 8 }
+      ),
+      exploit
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.RIGHT);
+  });
+
+  test('(Turn around, bright eyes) every now and then I fall apart, should chase its tale', () => {
+    let direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-----------
+         -----------
+         -------0---
+         -----------
+         ----S------
+         ----t------
+         ----T------
+         -----------
+         --0--------
+         -----------
+         -----------`,
+        { turn: 8 }
+      ),
+      exploit
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.RIGHT);
+    direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-----------
+         -----------
+         -------0---
+         -----------
+         ----tS-----
+         ----T------
+         -----------
+         -----------
+         --0--------
+         -----------
+         -----------`,
+        { turn: 9 }
+      ),
+      exploit
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.DOWN);
+    direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-----------
+         -----------
+         -------0---
+         -----------
+         ----Tt-----
+         -----S-----
+         -----------
+         -----------
+         --0--------
+         -----------
+         -----------`,
+        { turn: 8 }
+      ),
+      exploit
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.LEFT);
+    direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-----------
+         -----------
+         -------0---
+         -----------
+         -----T-----
+         ----St-----
+         -----------
+         -----------
+         --0--------
+         -----------
+         -----------`,
+        { turn: 8 }
+      ),
+      exploit
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.UP);
+  });
+
+  test('if we can chase an enemy tail we should', () => {
+    const direction = new SnakeBrain(
+      getGameStateFromMock(
+        `-T-----
+         ttvvU--
+         tSV----
+         tt-----
+         -------
+         -------
+         -------`,
+        { turn: 8, height: 7, width: 7 }
+      ),
+      exploit
+    )
+      .decide()
+      .act();
+    expect(direction).toBe(Directions.RIGHT);
   });
 });

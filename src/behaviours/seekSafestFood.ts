@@ -49,7 +49,7 @@ export const seekSafestFood = (
       for (const coordinate of pathToSnack) {
         const futureBodyPoint = {};
         futureBodyPoint['x'] = coordinate[0];
-        futureBodyPoint['y'] = coordinate[0];
+        futureBodyPoint['y'] = coordinate[1];
         futureBody.push(futureBodyPoint);
       }
       const futureUs = { ...us, body: futureBody };

@@ -97,6 +97,14 @@ resource "digitalocean_firewall" "bounty_snake_firewall" {
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
 
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "443"
+    source_droplet_ids = [
+      digitalocean_droplet.bounty_snake_droplet.id
+    ]
+  }
+
   outbound_rule {
     protocol              = "tcp"
     port_range            = "53"
@@ -119,5 +127,14 @@ resource "digitalocean_firewall" "bounty_snake_firewall" {
     protocol              = "tcp"
     port_range            = "443"
     destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "443"
+    destination_droplet_ids = [
+      digitalocean_droplet.bounty_snake_redis.id
+    ]
   }
 }

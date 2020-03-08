@@ -40,28 +40,44 @@ resource "digitalocean_droplet" "bounty_snake_droplet" {
 }
 
 resource "digitalocean_droplet" "bounty_snake_redis" {
-  image       = "ubuntu-18-04-x64"
-  name        = "echosec-bounty-snake-redis"
-  region      = "sfo2"
-  size        = "s-1vcpu-1gb"
-  monitoring  = true
-  ssh_keys    = var.ssh_key_ids
-  user_data   = <<EOM
+  image               = "ubuntu-18-04-x64"
+  name                = "echosec-bounty-snake-redis"
+  region              = "sfo2"
+  size                = "s-1vcpu-1gb"
+  monitoring          = true
+  private_networking  = true
+  ssh_keys            = var.ssh_key_ids
+  user_data           = <<EOM
     #cloud-config
     runcmd:
       - sudo apt update -y
       - sudo apt install -y redis-server
+      - sed -i -e '/supervised/s|no|systemd|' /etc/redis/redis.conf
+      - sudo systemctl restart redis.service
     EOM
 
   lifecycle {
-    prevent_destroy = true
+    create_before_destroy = true
+  }
+}
+
+
+resource "digitalocean_floating_ip_assignment" "bounty_snake_ip" {
+  ip_address = var.floating_ip
+  droplet_id = digitalocean_droplet.bounty_snake_droplet.id
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
 resource "digitalocean_firewall" "bounty_snake_firewall" {
   name = "bounty-snake-firewall"
 
-  droplet_ids = [digitalocean_droplet.bounty_snake_droplet.id]
+  droplet_ids = [
+    digitalocean_droplet.bounty_snake_droplet.id,
+    digitalocean_droplet.bounty_snake_redis.id
+  ]
 
   inbound_rule {
     protocol         = "tcp"
@@ -103,14 +119,5 @@ resource "digitalocean_firewall" "bounty_snake_firewall" {
     protocol              = "tcp"
     port_range            = "443"
     destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
-}
-
-resource "digitalocean_floating_ip_assignment" "bounty_snake_ip" {
-  ip_address = var.floating_ip
-  droplet_id = digitalocean_droplet.bounty_snake_droplet.id
-
-  lifecycle {
-    create_before_destroy = true
   }
 }

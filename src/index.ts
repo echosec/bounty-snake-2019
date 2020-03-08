@@ -6,6 +6,7 @@ import {
   genericErrorHandler,
   poweredByHandler,
 } from './handlers';
+import { getNemesis } from './helpers';
 import SnakeBrain from '../src/SnakeBrain';
 import { IGameState } from '../src/Types';
 import redis from 'redis';
@@ -43,9 +44,14 @@ app.post('/start', (request, response) => {
   // Reset giveUp whenever a new game starts
   giveUp = false;
 
-  // Wake up snake brain and tell it to start playing!
-  const initialGameState: IGameState = request.body;
-  const snakeBrain = new SnakeBrain(initialGameState, giveUp);
+  // Let's see who we're dealing with.
+  const gameState: IGameState = request.body;
+  const enemy = getNemesis(gameState.you, gameState.board.snakes);
+
+  // That's it! You're on the list.
+  client.smembers('enemyNames', (err, reply) => {
+      giveUp = reply.includes(enemy.name);
+  });
 
   // Response data
   const data = {
@@ -94,11 +100,11 @@ app.get('/version', (_, response) => {
 app.post('/shout', urlencodedParser, (request, response) => {
   let data = "Didn't quite get that. Come again?";
 
+  // Parse curl for enemy name, add it to redis
   if (request.body.name) {
-    client.set(
-      Object.keys(request.body)[0],
-      request.body.enemy,
-      redis.print);
+    client.sadd(
+      "enemyNames",
+      request.body.name);
     data = 'Turtle cower! 🐢 🐢 🐢 ';
   }
 

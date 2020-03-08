@@ -97,7 +97,7 @@ app.get('/version', (_, response) => {
   return response.send(process.env.VERSION || 'undefined');
 });
 
-app.post('/shout', urlencodedParser, (request, response) => {
+app.post('/enemy', urlencodedParser, (request, response) => {
   let data = "Didn't quite get that. Come again?";
 
   // Parse curl for enemy name, add it to redis

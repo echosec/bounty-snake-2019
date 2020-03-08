@@ -45,14 +45,14 @@ resource "digitalocean_droplet" "bounty_snake_redis" {
   region              = "sfo2"
   size                = "s-1vcpu-1gb"
   monitoring          = true
-  private_networking  = true
   ssh_keys            = var.ssh_key_ids
   user_data           = <<EOM
     #cloud-config
     runcmd:
-      - sudo apt update -y
-      - sudo apt install -y redis-server
+      - sudo apt-get update -y
+      - sudo apt-get install -y redis-server
       - sed -i -e '/supervised/s|no|systemd|' /etc/redis/redis.conf
+      - sed -i -e '/bind 127.0.0.1 ::1/s|127.0.0.1 ::1|0.0.0.0|' /etc/redis/redis.conf
       - sudo systemctl restart redis.service
     EOM
 

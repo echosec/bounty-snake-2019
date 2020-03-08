@@ -29,16 +29,13 @@ export default class SnakeBrain {
 
     if (giveUp) {
       this.action = turtle(gameState.board, gameState.you);
-      this.act();
-    }
-
-    if (turn === 0) {
+    } else if (turn === 0) {
       // Eat something, you look hungry.
       this.action = Directions.DOWN;
+    } else {
+      // Default action
+      this.action = Directions.LEFT;
     }
-
-    // Default action
-    this.action = Directions.LEFT;
     return this;
   }
 

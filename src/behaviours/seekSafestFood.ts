@@ -4,6 +4,21 @@ import { firstToFood } from '../helpers';
 import { chaseEnemyTail } from './chaseEnemyTail';
 
 /**
+ * @param {Pathfinder} - PF - our pathfinder class.
+ * @param {ISnake[]} snakes - dastardly foes.
+ * @param {ISnake} futureUs - will i be pretty, will i be rich?
+ * to check where our body will be should we dine.
+ * @returns {Directions} returns the next direction
+ */
+function checkPostNibleOption(
+  PF: Pathfinder,
+  snakes: ISnake[],
+  futureUs: ISnake
+): boolean {
+  return chaseEnemyTail(PF, futureUs, snakes) ? true : false;
+}
+
+/**
  * @param {Pathfinder} PF - Pathfinder class initialized with game state
  * @param {IBoard} board - the board state
  * @param {ISnake} us - our snake
@@ -32,7 +47,7 @@ export const seekSafestFood = (
       const futureBody = [];
       // map where our body will be when we eat food.
       for (const coordinate of pathToSnack) {
-        let futureBodyPoint = {};
+        const futureBodyPoint = {};
         futureBodyPoint['x'] = coordinate[0];
         futureBodyPoint['y'] = coordinate[0];
         futureBody.push(futureBodyPoint);
@@ -58,20 +73,5 @@ export const seekSafestFood = (
     console.log(error);
   }
 };
-
-/**
- * @param {Pathfinder} - PF - our pathfinder class.
- * @param {ISnake[]} snakes - dastardly foes.
- * @param {ISnake} futureUs - will i be pretty, will i be rich?
- * to check where our body will be should we dine.
- * @returns {Directions} returns the next direction
- */
-function checkPostNibleOption(
-  PF: Pathfinder,
-  snakes: ISnake[],
-  futureUs: ISnake
-) {
-  return chaseEnemyTail(PF, futureUs, snakes) ? true : false;
-}
 
 export default seekSafestFood;

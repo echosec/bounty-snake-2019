@@ -9,12 +9,11 @@ import Pathfinder from '../Pathfinder';
  * @param {ISnake} us - our snake
  * @returns {Directions} - returns the next direction
  */
-export const attackHead = (board: IBoard, us: ISnake): Directions => {
-  const snakes: ISnake[] = board.snakes;
-
-  const pf = new Pathfinder(board, snakes);
-  const enemySnake: ISnake = getNemesis(us, snakes);
-
+export const attackHead = (
+  pf: Pathfinder,
+  us: ISnake,
+  enemySnake: ISnake
+): Directions => {
   const ourHead: ICoordinate = us.body[0];
   const enemyHead: ICoordinate = enemySnake.body[0];
 

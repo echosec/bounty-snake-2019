@@ -1,4 +1,4 @@
-import { ISnake, IBoard, ICoordinate, Directions } from '../Types';
+import { ISnake, ICoordinate, Directions } from '../Types';
 import Pathfinder from '../Pathfinder';
 
 /**
@@ -8,10 +8,7 @@ import Pathfinder from '../Pathfinder';
  * @param {ISnake} us - our snake
  * @returns {Directions} - returns the next direction
  */
-export const turtle = (board: IBoard, us: ISnake): Directions => {
-  const snakes: ISnake[] = board.snakes;
-  const pf = new Pathfinder(board, snakes);
-
+export const turtle = (pf: Pathfinder, us: ISnake): Directions => {
   const head: ICoordinate = us.body[0];
   const neck: ICoordinate = us.body[1];
 

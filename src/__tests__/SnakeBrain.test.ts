@@ -6,25 +6,32 @@ import getGameStateFromMock from '../../util/snekspec';
 import SnakeBrain from '../SnakeBrain';
 import { Directions } from './../Types';
 
+let exploit = false;
+
 describe('GameState Class Tests', () => {
   test('Class creation from mock and default move', () => {
     // Arrange & Act
     const mockGameStateObject = getGameStateFromMock(headAndTailSnake1, {
-      turn: 10,
+      turn: 1,
     });
-    const direction = new SnakeBrain(mockGameStateObject).decide().act();
+    const direction = new SnakeBrain(mockGameStateObject, exploit)
+      .decide()
+      .act();
     // Assert
     expect(direction).toBe(Directions.LEFT);
   });
 
+  // TODO: update this when we get the eat() function going
   test('First move, you down?', () => {
     // Arrange & Act
     const mockGameStateObject = getGameStateFromMock(headAndTailSnake1, {
       turn: 1,
     });
-    const direction = new SnakeBrain(mockGameStateObject).decide().act();
+    const direction = new SnakeBrain(mockGameStateObject, exploit)
+      .decide()
+      .act();
     // Assert
-    expect(direction).toBe(Directions.DOWN);
+    expect(direction).toBe(Directions.LEFT);
   });
 
   test('Shout, shout, let it all out', () => {
@@ -32,11 +39,11 @@ describe('GameState Class Tests', () => {
     const mockGameStateObject = getGameStateFromMock(snakesAndFood1, {
       turn: 2,
     });
-    mockGameStateObject.board.snakes[0].shout = 'TURTLE COWER';
+    exploit = true;
 
-    // TODO Would love to be able to spyOn a behaviour here.
-
-    const direction = new SnakeBrain(mockGameStateObject).decide().act();
+    const direction = new SnakeBrain(mockGameStateObject, exploit)
+      .decide()
+      .act();
     // Assert
     expect(direction).toBe(Directions.DOWN);
   });

@@ -2,7 +2,10 @@ import { IGameState, ISnake, IBoard, IGame, Directions } from './Types';
 import { turtle } from './behaviours/turtle';
 import { canKillNemesis, getNemesis } from './helpers';
 import { attackHead } from './behaviours/attackHead';
+import { chaseTail } from './behaviours/chaseTail';
+import { chaseEnemyTail } from './behaviours/chaseEnemyTail';
 import Pathfinder from './Pathfinder';
+import { floodFill } from './behaviours/floodFill';
 
 // I hate writing "this." all the time.
 let game: IGame;
@@ -39,22 +42,34 @@ export default class SnakeBrain {
     console.log({ turn, game, board, us });
 
     // Instantiate Pathfinder with board and snakes
-    const pf = new Pathfinder(board, everybody);
+    const PF = new Pathfinder(board, everybody);
 
     // Try some moves out, see what feels good
-    const cower = turtle(pf, us);
-    const murder = attackHead(pf, us, nemesis);
+    const cower = turtle(PF, us);
+    const headbutt = attackHead(PF, us, nemesis);
+    // const hangry = eat();
+    const goingInCircles = chaseTail(PF, us);
+    const ridingCoattails = chaseEnemyTail(PF, us, everybody);
 
-    if (selfDestruct) { // OH NO! We've been hacked!
+    if (selfDestruct) {
+      // OH NO! We've been hacked!
       console.log('AHHHHHH');
       this.action = cower;
-    } else if ( // Murder was the case 
-      canKillNemesis(us, everybody)
-      && murder
-    ) {
-      this.action
-    } else if () {
-
+    } else if (canKillNemesis(us, everybody) && headbutt) {
+      console.log('*THUNK*');
+      this.action = headbutt;
+      // } else if (firstToFood && hangry) {j
+      //   this.action = hangry;
+    } else if (goingInCircles && turn > 2) {
+      console.log('Follow our butt');
+      this.action = goingInCircles;
+    } else if (ridingCoattails) {
+      console.log('Follow your butt');
+      this.action = ridingCoattails;
+    } else {
+      console.log('Feeling aimless');
+      // floodFill is costly, so only calculating when we need it
+      this.action = PF.getDirection(us.body[0], floodFill(PF.grid, us));
     }
 
     // Default action

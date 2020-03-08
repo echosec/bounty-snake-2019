@@ -8,9 +8,9 @@ import Pathfinder from '../Pathfinder';
  * @param {ISnake} us - our snake
  * @returns {Directions} - returns the next direction
  */
-export const turtle = (pf: Pathfinder, us: ISnake): Directions => {
+export const turtle = (PF: Pathfinder, us: ISnake): Directions => {
   const head: ICoordinate = us.body[0];
   const neck: ICoordinate = us.body[1];
 
-  return pf.getStep(head, neck);
+  return PF.getStep(head, neck);
 };

@@ -78,6 +78,12 @@ resource "digitalocean_firewall" "bounty_snake_firewall" {
 
   outbound_rule {
     protocol              = "tcp"
+    port_range            = "80"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
+    protocol              = "tcp"
     port_range            = "443"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }

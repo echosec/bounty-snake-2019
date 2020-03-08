@@ -61,10 +61,7 @@ resource "digitalocean_droplet" "bounty_snake_redis" {
 resource "digitalocean_firewall" "bounty_snake_firewall" {
   name = "bounty-snake-firewall"
 
-  droplet_ids = [
-    digitalocean_droplet.bounty_snake_droplet.id,
-    digitalocean_droplet.bounty_snake_redis.id
-  ]
+  droplet_ids = [digitalocean_droplet.bounty_snake_droplet.id]
 
   inbound_rule {
     protocol         = "tcp"

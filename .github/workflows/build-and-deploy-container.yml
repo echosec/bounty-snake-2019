@@ -80,6 +80,7 @@ jobs:
                 "color": "danger",
                 "title": ":x: Deploy failed",
                 "text": "Version ${{ steps.vars.outputs.image_tag }}",
+                "pretext": "<@UK3246KRD>",
                 "fallback": "Failed to deploy version ${{ steps.vars.outputs.image_tag }}"
               }]
             }

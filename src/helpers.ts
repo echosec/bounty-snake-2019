@@ -66,3 +66,41 @@ export function firstToFood(
   // If no snake has a shorter path, return true
   return true;
 }
+
+/**
+ * Calculate the manhattan distance between to coordinates
+ * @param {ICoordinate} a - coordinate a
+ * @param {ICoordinate} b - coordinate b
+ */
+export function manhattanDistance(a: ICoordinate, b: ICoordinate): number {
+  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+
+/**
+ * Determine if 2 objects are equivalent
+ * @param a - one object
+ * @param b - another object
+ */
+export function isEquivalent(a: {}, b: {}): boolean {
+  // Create arrays of property names
+  const aProps = Object.getOwnPropertyNames(a);
+  const bProps = Object.getOwnPropertyNames(b);
+
+  // If the number of properties is different,
+  // the objects are not equivalent
+  if (aProps.length !== bProps.length) {
+    return false;
+  }
+
+  // If each property is not the same,
+  // the objects are not equivalent
+  for (const prop of aProps) {
+    if (a[prop] !== b[prop]) {
+      return false;
+    }
+  }
+
+  // If we made it this far, the objects
+  // are equivalent
+  return true;
+}

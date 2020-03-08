@@ -8,6 +8,17 @@ import {
 } from './handlers';
 import SnakeBrain from '../src/SnakeBrain';
 import { IGameState } from '../src/Types';
+import redis from 'redis';
+
+const client = redis.createClient();
+
+client.on('connect', () => {
+  console.log('Redis connected');
+});
+
+client.on('error', (err) => {
+  console.error(err);
+});
 
 const app = express();
 
@@ -25,9 +36,6 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 // Not sure if this is the best idea! 👀
 let giveUp = false;
 
-// Initialize snake brain
-let snakeBrain: SnakeBrain;
-
 // --- SNAKE LOGIC GOES BELOW THIS LINE ---
 
 // Handle POST request to '/start'
@@ -37,7 +45,7 @@ app.post('/start', (request, response) => {
 
   // Wake up snake brain and tell it to start playing!
   const initialGameState: IGameState = request.body;
-  snakeBrain = new SnakeBrain(initialGameState);
+  const snakeBrain = new SnakeBrain(initialGameState, giveUp);
 
   // Response data
   const data = {
@@ -51,7 +59,8 @@ app.post('/start', (request, response) => {
 app.post('/move', (request, response) => {
   // Pass current game state and whether it's quittin time
   const currentGameState: IGameState = request.body;
-  snakeBrain.decide(currentGameState, giveUp);
+  const snakeBrain = new SnakeBrain(currentGameState, giveUp);
+  snakeBrain.decide();
 
   // Response data
   const data = {
@@ -83,8 +92,11 @@ app.get('/version', (_, response) => {
 app.post('/shout', urlencodedParser, (request, response) => {
   let data = "Didn't quite get that. Come again?";
 
-  if (request.body.command === 'boo') {
-    giveUp = true;
+  if (request.body.name) {
+    client.set(
+      Object.keys(request.body)[0],
+      request.body.enemy,
+      redis.print);
     data = 'Turtle cower! 🐢 🐢 🐢 ';
   }
 

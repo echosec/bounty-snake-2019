@@ -2,7 +2,7 @@ import { ICoordinate, ISnake, Matrix } from './Types';
 import Pathfinder from './Pathfinder';
 
 /**
- * Calculate the manhattan distance between to coordinates
+ * Calculate the manhattan distance between two coordinates
  * @param {ICoordinate} a - coordinate a
  * @param {ICoordinate} b - coordinate b
  */

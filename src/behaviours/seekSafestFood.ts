@@ -61,7 +61,7 @@ export const seekSafestFood = (
 
 /**
  * @param {Pathfinder} - PF - our pathfinder class.
- * @param {ISnake[]} sankes - dastardly foes.
+ * @param {ISnake[]} snakes - dastardly foes.
  * @param {ISnake} futureUs - will i be pretty, will i be rich?
  * to check where our body will be should we dine.
  * @returns {Directions} returns the next direction
@@ -71,7 +71,7 @@ function checkPostNibleOption(
   snakes: ISnake[],
   futureUs: ISnake
 ) {
-  return chaseEnemyTail(PF, snakes, futureUs) ? true : false;
+  return chaseEnemyTail(PF, futureUs, snakes) ? true : false;
 }
 
 export default seekSafestFood;

@@ -27,7 +27,7 @@ resource "digitalocean_droplet" "bounty_snake_droplet" {
     runcmd:
       - docker login docker.pkg.github.com -u ${var.github_username} -p ${var.github_token}
       - docker pull docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:${var.image_tag}
-      - docker run -t -d -p 80:5000 --env VERSION=${var.image_tag} --env REDIS_HOST=${digitalocean_droplet.bounty_snake_redis.ipv4_address_private} --restart=unless-stopped docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:${var.image_tag}
+      - docker run -t -d -p 80:5000 --env VERSION=${var.image_tag} --env REDIS_HOST=${digitalocean_droplet.bounty_snake_redis.ipv4_address} --restart=unless-stopped docker.pkg.github.com/echosec/bounty-snake-2020/bounty-snake-2020:${var.image_tag}
     EOM
 
   lifecycle {
@@ -99,7 +99,7 @@ resource "digitalocean_firewall" "bounty_snake_firewall" {
 
   inbound_rule {
     protocol         = "tcp"
-    port_range       = "443"
+    port_range       = "6379"
     source_droplet_ids = [
       digitalocean_droplet.bounty_snake_droplet.id
     ]
@@ -132,7 +132,7 @@ resource "digitalocean_firewall" "bounty_snake_firewall" {
 
   outbound_rule {
     protocol              = "tcp"
-    port_range            = "443"
+    port_range            = "6379"
     destination_droplet_ids = [
       digitalocean_droplet.bounty_snake_redis.id
     ]

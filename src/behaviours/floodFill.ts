@@ -47,7 +47,7 @@ function traverse(
  * the board
  * @param grid - the board
  */
-export function findWalkableRegions(grid: Matrix): ICoordinate[][] {
+function findWalkableRegions(grid: Matrix): ICoordinate[][] {
   const walkableRegions: string[][] = [];
 
   // Iterate over the rows and columns
@@ -95,7 +95,7 @@ export function findWalkableRegions(grid: Matrix): ICoordinate[][] {
  * @param us - us
  * @param walkableRegions - the regions
  */
-export function findLargestAdjacentRegion(
+function findLargestAdjacentRegion(
   us: ISnake,
   walkableRegions: ICoordinate[][]
 ): ICoordinate[] {
@@ -125,7 +125,7 @@ export function findLargestAdjacentRegion(
  * @param current - the current node
  * @param path - the path to take
  */
-export function getPaths(
+function getPaths(
   region: ICoordinate[],
   current: ICoordinate,
   path: ICoordinate[],

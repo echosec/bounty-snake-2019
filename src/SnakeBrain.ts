@@ -1,4 +1,5 @@
 import { IGameState, ISnake, IBoard, IGame, Directions } from './Types';
+import { turtle } from './behaviours/turtle';
 // I hate writing "this." all the time.
 let game: IGame;
 let turn: number;
@@ -21,10 +22,15 @@ export default class SnakeBrain {
    *
    * @returns {SnakeBrain}
    */
-  public decide(): SnakeBrain {
+  public decide(gameState: IGameState, giveUp: boolean): SnakeBrain {
     // Logic for start of game.
     // eslint-disable-next-line array-element-newline
     console.log([turn, game, board, us]);
+
+    if (giveUp) {
+      this.action = turtle(gameState.board, gameState.you);
+      this.act();
+    }
 
     if (turn === 0) {
       // Eat something, you look hungry.

@@ -6,6 +6,8 @@ import {
   genericErrorHandler,
   poweredByHandler,
 } from './handlers';
+import SnakeBrain from '../src/SnakeBrain';
+import { IGameState } from '../src/Types';
 
 const app = express();
 
@@ -18,13 +20,24 @@ app.enable('verbose errors');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(poweredByHandler);
+const urlencodedParser = bodyParser.urlencoded({ extended: true });
+
+// Not sure if this is the best idea! 👀
+let giveUp: boolean = false;
+
+// Initialize snake brain
+let snakeBrain: SnakeBrain;
 
 // --- SNAKE LOGIC GOES BELOW THIS LINE ---
 
 // Handle POST request to '/start'
 app.post('/start', (request, response) => {
-  // NOTE: Do something here to start the game
-  console.log(request.body);
+  // Reset giveUp whenever a new game starts
+  giveUp = false;
+
+  // Wake up snake brain and tell it to start playing!
+  const initialGameState: IGameState = request.body;
+  snakeBrain = new SnakeBrain(initialGameState);
 
   // Response data
   const data = {
@@ -36,8 +49,9 @@ app.post('/start', (request, response) => {
 
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
-  // NOTE: Do something here to generate your move
-  console.log(request.body);
+  // Pass current game state and whether it's quittin time
+  const currentGameState: IGameState = request.body;
+  snakeBrain.decide(currentGameState, giveUp);
 
   // Response data
   const data = {
@@ -64,6 +78,17 @@ app.post('/ping', (request, response) => {
 app.get('/version', (_, response) => {
   response.status(200);
   return response.send(process.env.VERSION || 'undefined');
+});
+
+app.post('/shout', urlencodedParser, (request, response) => {
+  let data: string = "Didn't quite get that. Come again?";
+
+  if (request.body.command === 'boo') {
+    giveUp = true;
+    data = 'Turtle cower! 🐢 🐢 🐢 ';
+  }
+
+  return response.json(data);
 });
 
 // --- SNAKE LOGIC GOES ABOVE THIS LINE ---

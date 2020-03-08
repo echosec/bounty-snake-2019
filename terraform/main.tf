@@ -21,9 +21,7 @@ resource "digitalocean_droplet" "bounty_snake_droplet" {
   region      = "sfo2"
   size        = "s-2vcpu-4gb"
   monitoring  = true
-  ssh_keys    = [
-    25059594 # brandonb@echosec.net
-  ]
+  ssh_keys    = var.ssh_key_ids
   user_data   = <<EOM
     #cloud-config
     runcmd:
@@ -41,10 +39,32 @@ resource "digitalocean_droplet" "bounty_snake_droplet" {
   }
 }
 
+resource "digitalocean_droplet" "bounty_snake_redis" {
+  image       = "ubuntu-18-04-x64"
+  name        = "echosec-bounty-snake-redis"
+  region      = "sfo2"
+  size        = "s-1vcpu-1gb"
+  monitoring  = true
+  ssh_keys    = var.ssh_key_ids
+  user_data   = <<EOM
+    #cloud-config
+    runcmd:
+      - sudo apt update -y
+      - sudo apt install -y redis-server
+    EOM
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "digitalocean_firewall" "bounty_snake_firewall" {
   name = "bounty-snake-firewall"
 
-  droplet_ids = [digitalocean_droplet.bounty_snake_droplet.id]
+  droplet_ids = [
+    digitalocean_droplet.bounty_snake_droplet.id,
+    digitalocean_droplet.bounty_snake_redis.id
+  ]
 
   inbound_rule {
     protocol         = "tcp"

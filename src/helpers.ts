@@ -1,4 +1,4 @@
-import { ICoordinate, ISnake, Matrix, IBoard } from './Types';
+import { ICoordinate, ISnake, Matrix } from './Types';
 import Pathfinder from './Pathfinder';
 
 /**
@@ -76,10 +76,31 @@ export function manhattanDistance(a: ICoordinate, b: ICoordinate): number {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
+/**
+ * Determine if 2 objects are equivalent
+ * @param a - one object
+ * @param b - another object
+ */
+export function isEquivalent(a: {}, b: {}): boolean {
+  // Create arrays of property names
+  const aProps = Object.getOwnPropertyNames(a);
+  const bProps = Object.getOwnPropertyNames(b);
 
-export function isCorner(coordinate: ICoordinate, board: IBoard) {
-  return (coordinate.x === 0 && coordinate.y === 0)
-    || (coordinate.x === board.width - 1 && coordinate.y === 0)
-    || (coordinate.x === 0 && coordinate.y === board.height - 1)
-    || (coordinate.x === board.width - 1 && coordinate.y === board.height - 1);
+  // If the number of properties is different,
+  // the objects are not equivalent
+  if (aProps.length != bProps.length) {
+    return false;
+  }
+
+  // If each property is not the same,
+  // the objects are not equivalent
+  for (const prop of aProps) {
+    if (a[prop] != b[prop]) {
+      return false;
+    }
+  }
+
+  // If we made it this far, the objects
+  // are equivalent
+  return true;
 }

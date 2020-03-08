@@ -1,36 +1,46 @@
-import { ISnake, IBoard, Directions } from '../../Types';
-import { findAdjacent, findWalkable, getSinglePath } from '../../behaviours/floodFill';
+import { ISnake } from '../../Types';
+import { floodFill } from '../../behaviours/floodFill';
 import { gameState } from '../fixtures/Gamestate';
 
 describe('floodFill', () => {
-  test('should cause our snake to self-destruct', () => {
+  test('should hopefully return some sort of path', () => {
     // Arrange
-    const board: IBoard = gameState.board;
     const us: ISnake = gameState.board.snakes[0];
     us.body = [
       {
         x: 2,
         y: 4,
-      }
+      },
     ];
 
-    const path = [];
-
+    /* eslint-disable */
     var arr = [
       [1, 1, 0, 1, 0],
       [1, 1, 0, 1, 0],
       [0, 1, 0, 0, 0],
       [0, 1, 0, 0, 0],
-      [0, 0, 1, 1, 1]
+      [0, 0, 1, 1, 1],
     ];
-
-    const beenHere = new Set<String>();
+    /* eslint-enable */
 
     // Act
-    const walkable = findWalkable(arr);
-    const region = findAdjacent(us, walkable);
-    const flood = getSinglePath(us.body[0], region, beenHere);
+    const floodPath = floodFill(arr, us);
 
-    console.log(flood);
+    // floodFill finds the following path,
+    //  starting at our head:
+    // [
+    //   { x: 2, y: 4 },
+    //   { x: 2, y: 3 },
+    //   { x: 3, y: 3 },
+    //   { x: 4, y: 3 },
+    //   { x: 4, y: 2 },
+    //   { x: 3, y: 2 },
+    //   { x: 2, y: 2 },
+    //   { x: 2, y: 1 },
+    //   { x: 2, y: 0 }
+    // ]
+    // and returns the first move ({ x: 2, y: 3})
+
+    expect(floodPath).toMatchObject({ x: 2, y: 3 });
   });
 });

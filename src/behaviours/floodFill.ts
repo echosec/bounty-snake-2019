@@ -1,15 +1,58 @@
-import { manhattanDistance, isCorner } from '../helpers';
-import { ISnake, ICoordinate, Matrix, IBoard } from '../Types';
-import { pathToFileURL } from 'url';
+import { manhattanDistance, isEquivalent } from '../helpers';
+import { ISnake, ICoordinate, Matrix } from '../Types';
 
-const visited = new Set;
+const visited = new Set();
 
-export function findWalkable(arr: Matrix) {
-  const walkableAreas: string[][] = [];
+/**
+ * Recursively traverse the board
+ * @param grid - the game board
+ * @param x - the x coordinate of the current node
+ * @param y - the y coordinate of the current node
+ * @param region - the region to expand upon
+ */
+function traverse(
+  grid: Matrix,
+  x: number,
+  y: number,
+  region: string[] = []
+): string[] {
+  // If we're going off the board, return
+  if (x < 0 || y < 0 || x > grid.length - 1 || y > grid[0].length - 1) {
+    return;
+  }
+
+  // If we've already looked at this node,
+  // or it is unwalkable, return
+  if (grid[y][x] !== 0 || visited.has(`${x},${y}`)) {
+    return;
+  }
+
+  // If the space is walkable, add it to the
+  // path array and the visited set
+  region.push(`${x},${y}`);
+  visited.add(`${x},${y}`);
+
+  // Recursively traverse each neighbouring node
+  traverse(grid, x, y + 1, region);
+  traverse(grid, x, y - 1, region);
+  traverse(grid, x - 1, y, region);
+  traverse(grid, x + 1, y, region);
+
+  // Return the array
+  return region;
+}
+
+/**
+ * Find all of the discreet walkable regions on
+ * the board
+ * @param grid - the board
+ */
+export function findWalkableRegions(grid: Matrix): ICoordinate[][] {
+  const walkableRegions: string[][] = [];
 
   // Iterate over the rows and columns
-  for (let y = 0; y < arr.length; y++) {
-    for (let x = 0; x < arr[y].length; x++) {
+  for (let y = 0; y < grid.length; y++) {
+    for (let x = 0; x < grid[y].length; x++) {
       // If the node is in the set, continue
       if (visited.has(`${x},${y}`)) {
         continue;
@@ -17,63 +60,45 @@ export function findWalkable(arr: Matrix) {
 
       // If the node is not in the set,
       // kick off a traversal
-      const area: string[] = traverse(arr, x, y);
+      const region: string[] = traverse(grid, x, y);
 
-      if (area) {
-        walkableAreas.push(area);
+      if (region) {
+        walkableRegions.push(region);
       }
     }
   }
 
   const coordinateArrays: ICoordinate[][] = [];
 
-  // For each walkable area
-  walkableAreas.forEach((area: string[]): void => {
+  // For each walkable region
+  walkableRegions.forEach((area: string[]): void => {
     // Map the coordinate strings to an ICoordinate[]
     const coordinateArray: ICoordinate[] = area.map((coordString: string) => {
       const coords = coordString.split(',');
       return {
         x: Number(coords[0]),
-        y: Number(coords[1])
-      }
+        y: Number(coords[1]),
+      };
     });
 
     coordinateArrays.push(coordinateArray);
   });
 
-  // Return the coordinates for each
+  // Return the coordinate array for each
   // distinct walkable region on the board
   return coordinateArrays;
 }
 
-function traverse(arr: Matrix, x: number, y: number, path: string[] = []): string[] {
-  // If we're going off the board, return
-  if (x < 0 || y < 0 || x > arr.length - 1 || y > arr[0].length - 1) {
-    return;
-  }
-
-  // If we've already looked at this node,
-  // or it is unwalkable, return
-  if (arr[y][x] !== 0 || visited.has(`${x},${y}`)) {
-    return;
-  }
-
-  // If the space is walkable, add it to the
-  // path array and the visited set
-  path.push(`${x},${y}`);
-  visited.add(`${x},${y}`);
-
-  // Recursively traverse each neighbouring node
-  traverse(arr, x, y + 1, path);
-  traverse(arr, x, y - 1, path);
-  traverse(arr, x - 1, y, path);
-  traverse(arr, x + 1, y, path);
-
-  // Return the array
-  return path;
-}
-
-export function findAdjacent(us: ISnake, walkableRegions: ICoordinate[][]): ICoordinate[] {
+/**
+ * From all of the walkable regions on the board,
+ * find the largest one that we are able to move in to
+ * @param us - us
+ * @param walkableRegions - the regions
+ */
+export function findLargestAdjacentRegion(
+  us: ISnake,
+  walkableRegions: ICoordinate[][]
+): ICoordinate[] {
   const ourHead = us.body[0];
   const adjacentRegions: ICoordinate[][] = [];
 
@@ -90,42 +115,88 @@ export function findAdjacent(us: ISnake, walkableRegions: ICoordinate[][]): ICoo
     return;
   }
 
-  return adjacentRegions
-    .reduce((a, b) => (a.length > b.length ? a : b), []);
+  return adjacentRegions.reduce((a, b) => (a.length > b.length ? a : b), []);
 }
 
-export function findFurthestTarget(us: ISnake, region: ICoordinate[], board: IBoard) {
+/**
+ * Create arrays containing coordinate paths
+ * for each direction we can travel in
+ * @param region - the board
+ * @param current - the current node
+ * @param path - the path to take
+ */
+export function getPaths(
+  region: ICoordinate[],
+  current: ICoordinate,
+  path: ICoordinate[],
+  visitedNodes: Set<string> = new Set()
+): void {
+  // Add the current node to the path
+  path.push(current);
+  // Add the current node to the set of visited nodes
+  visitedNodes.add(JSON.stringify(current));
+  // Create an array of
+  const left = { x: current.x - 1, y: current.y };
+  const right = { x: current.x + 1, y: current.y };
+  const up = { x: current.x, y: current.y - 1 };
+  const down = { x: current.x, y: current.y + 1 };
+  // eslint-disable-next-line
+  const moves = [left, right, up, down];
+
+  for (const move of moves) {
+    for (const node of region) {
+      if (isEquivalent(node, move) && !visitedNodes.has(JSON.stringify(move))) {
+        getPaths(region, move, path, visitedNodes);
+        return;
+      }
+    }
+  }
+
+  return;
+}
+
+/**
+ *
+ * @param grid
+ * @param us
+ * @param board
+ */
+export function floodFill(grid: Matrix, us: ISnake): ICoordinate {
+  // Find all walkable regions
+  const regions = findWalkableRegions(grid);
+  // Determine which is the largest
+  const bestRegion = findLargestAdjacentRegion(us, regions);
+  // If we're not adjacent to any regions, we're dead. Game over, man.
+  if (!bestRegion) {
+    return null;
+  }
+
+  // Our longest possible path
+  let bestPath: ICoordinate[] = [];
+
+  const left: ICoordinate[] = [];
+  const right: ICoordinate[] = [];
+  const up: ICoordinate[] = [];
+  const down: ICoordinate[] = [];
+  // eslint-disable-next-line
+  const paths = [left, right, up, down];
+
   const ourHead = us.body[0];
-  let greatestDistance = 0;
-  let furthestTarget: ICoordinate = null;
 
-  for (const coordinate of region) {
-    const distance = manhattanDistance(coordinate, ourHead);
+  // Try to get a path in each starting direction,
+  // pushing to the coordinate arrays defined above
+  getPaths([...bestRegion], ourHead, left);
+  getPaths([...bestRegion], ourHead, right);
+  getPaths([...bestRegion], ourHead, up);
+  getPaths([...bestRegion], ourHead, down);
 
-    if (distance > greatestDistance && !isCorner(coordinate, board)) {
-      greatestDistance = distance;
-      furthestTarget = coordinate;
+  // Pick the longest path
+  paths.forEach(path => {
+    if (path.length > bestPath.length) {
+      bestPath = path;
     }
-  }
+  });
 
-  return furthestTarget;
-}
-
-export function getSinglePath(start: ICoordinate, region: ICoordinate[], beenHere: Set<String>, path = []) {
-  let current = start;
-  if (beenHere.has(`${current.x},${current.y}`)) {
-    return;
-  }
-
-  beenHere.add(`${current.x},${current.y}`);
-
-  for (const coordinate of region) {
-    if (manhattanDistance(coordinate, current) === 1) {
-      path.push([coordinate.x, coordinate.y]);
-      current = coordinate;
-
-      getSinglePath(current, region, beenHere, path);
-      return path;
-    }
-  }
+  // Return the first move from the best path
+  return bestPath.length > 1 ? bestPath[1] : null;
 }

@@ -88,14 +88,14 @@ export function isEquivalent(a: {}, b: {}): boolean {
 
   // If the number of properties is different,
   // the objects are not equivalent
-  if (aProps.length != bProps.length) {
+  if (aProps.length !== bProps.length) {
     return false;
   }
 
   // If each property is not the same,
   // the objects are not equivalent
   for (const prop of aProps) {
-    if (a[prop] != b[prop]) {
+    if (a[prop] !== b[prop]) {
       return false;
     }
   }

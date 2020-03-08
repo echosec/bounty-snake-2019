@@ -47,10 +47,7 @@ export const seekSafestFood = (
       const futureBody = [];
       // map where our body will be when we eat food.
       for (const coordinate of pathToSnack) {
-        const futureBodyPoint = {};
-        futureBodyPoint['x'] = coordinate[0];
-        futureBodyPoint['y'] = coordinate[1];
-        futureBody.push(futureBodyPoint);
+        futureBody.push({ x: coordinate[0], y: coordinate[1] });
       }
       const futureUs = { ...us, body: futureBody };
       // Make sure we have somewhere to go after eating. We will check if there is a snake tail to chase.

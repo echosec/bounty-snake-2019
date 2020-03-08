@@ -1,6 +1,6 @@
 import { IGameState, ISnake, IBoard, IGame, Directions } from './Types';
 import { turtle } from './behaviours/turtle';
-import { canKillNemesis, getNemesis } from './helpers';
+import { canKillNemesis, getNemesis, shouldChaseOurTail } from './helpers';
 import { attackHead } from './behaviours/attackHead';
 import { chaseTail } from './behaviours/chaseTail';
 import { chaseEnemyTail } from './behaviours/chaseEnemyTail';
@@ -60,7 +60,7 @@ export default class SnakeBrain {
       this.action = headbutt;
       // } else if (firstToFood && hangry) {j
       //   this.action = hangry;
-    } else if (goingInCircles && turn > 2) {
+    } else if (goingInCircles && shouldChaseOurTail(us, turn)) {
       console.log('Follow our butt');
       this.action = goingInCircles;
     } else if (ridingCoattails) {

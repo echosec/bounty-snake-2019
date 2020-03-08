@@ -17,7 +17,7 @@ client.on('connect', () => {
   console.log('Redis connected');
 });
 
-client.on('error', (err) => {
+client.on('error', err => {
   console.error(err);
 });
 
@@ -50,7 +50,7 @@ app.post('/start', (request, response) => {
 
   // That's it! You're on the list.
   client.smembers('enemyNames', (err, reply) => {
-      giveUp = reply.includes(enemy.name);
+    giveUp = reply.includes(enemy.name);
   });
 
   // Response data
@@ -102,9 +102,7 @@ app.post('/shout', urlencodedParser, (request, response) => {
 
   // Parse curl for enemy name, add it to redis
   if (request.body.name) {
-    client.sadd(
-      "enemyNames",
-      request.body.name);
+    client.sadd('enemyNames', request.body.name);
     data = 'Turtle cower! 🐢 🐢 🐢 ';
   }
 

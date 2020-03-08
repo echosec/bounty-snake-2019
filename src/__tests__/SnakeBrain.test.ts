@@ -7,7 +7,10 @@ describe('GameState Class Tests', () => {
   test('Class creation and default move', () => {
     // Arrange & Act
     const mockGameStateObject = getGameStateFromMock(headAndTailSnake1);
-    const direction = new SnakeBrain(mockGameStateObject).decide(mockGameStateObject, false).act();
+    const direction = new SnakeBrain(mockGameStateObject)
+      .decide(mockGameStateObject, false)
+      .act();
+
     // Assert
     expect(direction).toBe(Directions.LEFT);
   });
@@ -15,7 +18,9 @@ describe('GameState Class Tests', () => {
   test('Call turtle when giveUp = true is passed to decide', () => {
     // Arrange & Act
     const mockGameStateObject = getGameStateFromMock(headAndTailSnake1);
-    const direction = new SnakeBrain(mockGameStateObject).decide(mockGameStateObject, true).act();
+    const direction = new SnakeBrain(mockGameStateObject)
+      .decide(mockGameStateObject, true)
+      .act();
 
     // Assert
     expect(direction).toBe(Directions.DOWN);

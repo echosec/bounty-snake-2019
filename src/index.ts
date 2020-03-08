@@ -23,7 +23,7 @@ app.use(poweredByHandler);
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 // Not sure if this is the best idea! 👀
-let giveUp: boolean = false;
+let giveUp = false;
 
 // Initialize snake brain
 let snakeBrain: SnakeBrain;
@@ -81,7 +81,7 @@ app.get('/version', (_, response) => {
 });
 
 app.post('/shout', urlencodedParser, (request, response) => {
-  let data: string = "Didn't quite get that. Come again?";
+  let data = "Didn't quite get that. Come again?";
 
   if (request.body.command === 'boo') {
     giveUp = true;

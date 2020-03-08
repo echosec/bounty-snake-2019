@@ -156,10 +156,9 @@ function getPaths(
 }
 
 /**
- *
- * @param grid
- * @param us
- * @param board
+ * Noah's ark, man
+ * @param grid - the board
+ * @param us - us
  */
 export function floodFill(grid: Matrix, us: ISnake): ICoordinate {
   // Find all walkable regions

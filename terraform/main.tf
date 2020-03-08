@@ -16,14 +16,15 @@ provider "digitalocean" {
 }
 
 resource "digitalocean_droplet" "bounty_snake_droplet" {
-  image     = "docker-18-04"
-  name      = "echosec-bounty-snake"
-  region    = "sfo2"
-  size      = "s-2vcpu-4gb"
-  ssh_keys  = [
+  image       = "docker-18-04"
+  name        = "echosec-bounty-snake"
+  region      = "sfo2"
+  size        = "s-2vcpu-4gb"
+  monitoring  = true
+  ssh_keys    = [
     25059594 # brandonb@echosec.net
   ]
-  user_data = <<EOM
+  user_data   = <<EOM
     #cloud-config
     runcmd:
       - docker login docker.pkg.github.com -u ${var.github_username} -p ${var.github_token}

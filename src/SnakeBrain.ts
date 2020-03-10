@@ -3,7 +3,6 @@ import { turtle } from './behaviours/turtle';
 import {
   getNemesis,
   shouldChaseOurTail,
-  firstToFood,
   shouldKillNemesis,
 } from './helpers';
 import { attackHead } from './behaviours/attackHead';
@@ -44,10 +43,6 @@ export default class SnakeBrain {
    * @returns {SnakeBrain}
    */
   public decide(): SnakeBrain {
-    // Logic for start of game.
-    // eslint-disable-next-line array-element-newline
-    logger.debug({ turn, game, board, us });
-
     // Instantiate Pathfinder with board and snakes
     const PF = new Pathfinder(board, everybody, us);
 
@@ -65,10 +60,10 @@ export default class SnakeBrain {
     } else if (shouldKillNemesis(us, everybody) && headbutt) {
       logger.debug('*THUNK*');
       this.action = headbutt;
-    } else if (firstToFood && hangry) {
+    } else if (hangry) {
       logger.debug('CHONK');
       this.action = hangry;
-    } else if (goingInCircles && shouldChaseOurTail(us, turn)) {
+    } else if (shouldChaseOurTail(us, turn) && goingInCircles) {
       logger.debug('Follow our butt');
       this.action = goingInCircles;
     } else if (ridingCoattails) {

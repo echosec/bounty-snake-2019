@@ -45,12 +45,19 @@ function isItADeadEnd(
  * @param us - us!
  * @param board - the game board
  */
-function areWeTrapped(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
+function isItATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   // This is us after we hit our fitness goals
-  const futureBody: ICoordinate[] = [];
-  // Map where our body will be when we eat food.
-  for (const coordinate of pathToSnack) {
-    futureBody.push({ x: coordinate[0], y: coordinate[1] });
+  let futureBody: ICoordinate[] = [];
+  // Map where our body will be when we follow the path to the food
+  us.body.forEach((coordinate, i) => {
+    futureBody.push({ x: pathToSnack[i][0], y: pathToSnack[i][1] });
+  });
+
+  // If our body is longer than the path, append the rest of the body,
+  // cutting off the trailing part to indicate where our tail
+  // has slithered along behind us
+  if (us.body.length > pathToSnack.length) {
+    futureBody = [...futureBody, ...us.body.slice(0, pathToSnack.length)];
   }
 
   // Get the index of our snake in the snake array
@@ -105,7 +112,7 @@ export const seekSafestFood = (
       }
 
       const winnerWinnerChickenDinner = firstToFood(us, snakes, snakeSnack, PF);
-      const deadEnd = areWeTrapped(pathToSnack, us, board);
+      const deadEnd = isItATrap(pathToSnack, us, board);
 
       // If we won't make it there first, continue
       if (!winnerWinnerChickenDinner || deadEnd) {

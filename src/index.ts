@@ -33,7 +33,7 @@ app.set('port', process.env.PORT || 9001);
 
 app.enable('verbose errors');
 
-app.use(morgan('dev'));
+app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(poweredByHandler);
 const urlencodedParser = bodyParser.urlencoded({ extended: true });

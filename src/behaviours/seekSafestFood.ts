@@ -46,18 +46,17 @@ function isItADeadEnd(
  * @param board - the game board
  */
 function itsATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
+  // Start from the end of the path
+  const invertPath = [...pathToSnack].reverse();
   // This is us after we hit our fitness goals
   let futureBody: ICoordinate[] = [];
   // Map where our body will be when we follow the path to the food
   us.body.forEach((coordinate, i) => {
-    futureBody.push({ x: pathToSnack[i][0], y: pathToSnack[i][1] });
+    futureBody.push({ x: invertPath[i][0], y: invertPath[i][1] });
   });
-  // Turn the snake around, so it is facing the right way
-  futureBody = futureBody.reverse();
 
   // If our body is longer than the path, append the rest of the body,
-  // cutting off the trailing part to indicate where our tail
-  // has slithered along behind us
+  // to indicate where our tail has slithered along behind us
   if (us.body.length > pathToSnack.length) {
     // eslint-disable-next-line
     futureBody = [...futureBody, ...us.body.slice(0, pathToSnack.length)];

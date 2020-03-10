@@ -18,7 +18,7 @@ function eat(PF: Pathfinder, us: ISnake, food: ICoordinate): Directions {
 }
 
 /**
- * Are we trapped if we eat this food?s
+ * Are we trapped if we eat this food?
  * @param {Pathfinder} - PF - our pathfinder class.
  * @param {ISnake[]} snakes - dastardly foes.
  * @param {ISnake} futureUs - will i be pretty, will i be rich?
@@ -29,7 +29,6 @@ function isItADeadEnd(
   futureUs: ISnake,
   snakes: ISnake[]
 ): boolean {
-  logger.debug(futureUs);
   const pathToEnemyTail = chaseEnemyTail(PF, futureUs, snakes);
   const pathToOurTail = chaseTail(PF, futureUs);
 

@@ -52,7 +52,9 @@ function itsATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   let futureBody: ICoordinate[] = [];
   // Map where our body will be when we follow the path to the food
   us.body.forEach((coordinate, i) => {
-    futureBody.push({ x: invertPath[i][0], y: invertPath[i][1] });
+    if (invertPath[i] !== undefined) {
+      futureBody.push({ x: invertPath[i][0], y: invertPath[i][1] });
+    }
   });
 
   // If our body is longer than the path, append the rest of the body,

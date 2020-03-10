@@ -45,7 +45,7 @@ function isItADeadEnd(
  * @param us - us!
  * @param board - the game board
  */
-function isItATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
+function itsATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   // This is us after we hit our fitness goals
   let futureBody: ICoordinate[] = [];
   // Map where our body will be when we follow the path to the food
@@ -114,7 +114,7 @@ export const seekSafestFood = (
       }
 
       const winnerWinnerChickenDinner = firstToFood(us, snakes, snakeSnack, PF);
-      const deadEnd = isItATrap(pathToSnack, us, board);
+      const deadEnd = itsATrap(pathToSnack, us, board);
 
       // If we won't make it there first, continue
       if (!winnerWinnerChickenDinner || deadEnd) {

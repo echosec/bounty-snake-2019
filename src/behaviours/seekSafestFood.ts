@@ -59,6 +59,7 @@ function itsATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   // cutting off the trailing part to indicate where our tail
   // has slithered along behind us
   if (us.body.length > pathToSnack.length) {
+    // eslint-disable-next-line
     futureBody = [...futureBody, ...us.body.slice(0, pathToSnack.length)];
   }
 

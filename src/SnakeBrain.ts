@@ -1,10 +1,6 @@
-import { IGameState, ISnake, IBoard, IGame, Directions } from './Types';
+import { IGameState, ISnake, IBoard, Directions } from './Types';
 import { turtle } from './behaviours/turtle';
-import {
-  getNemesis,
-  shouldChaseOurTail,
-  shouldKillNemesis,
-} from './helpers';
+import { getNemesis, shouldChaseOurTail, shouldKillNemesis } from './helpers';
 import { attackHead } from './behaviours/attackHead';
 import { chaseTail } from './behaviours/chaseTail';
 import { chaseEnemyTail } from './behaviours/chaseEnemyTail';
@@ -14,7 +10,6 @@ import seekSafestFood from './behaviours/seekSafestFood';
 import { logger } from './logger';
 
 // I hate writing "this." all the time.
-let game: IGame;
 let turn: number;
 let board: IBoard;
 let selfDestruct: boolean;
@@ -26,7 +21,6 @@ export default class SnakeBrain {
   private action: Directions;
 
   constructor(gameStateResponse: IGameState, exploited: boolean) {
-    game = gameStateResponse.game;
     turn = gameStateResponse.turn;
     board = gameStateResponse.board;
     // Not sure why we left this in here?

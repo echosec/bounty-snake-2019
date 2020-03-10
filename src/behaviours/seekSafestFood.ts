@@ -104,7 +104,7 @@ export const seekSafestFood = (
       if (!pathToSnack) {
         continue;
       }
-  
+
       const winnerWinnerChickenDinner = firstToFood(us, snakes, snakeSnack, PF);
       const deadEnd = areWeTrapped(pathToSnack, us, board);
 

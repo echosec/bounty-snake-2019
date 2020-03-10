@@ -52,6 +52,8 @@ function isItATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   us.body.forEach((coordinate, i) => {
     futureBody.push({ x: pathToSnack[i][0], y: pathToSnack[i][1] });
   });
+  // Turn the snake around, so it is facing the right way
+  futureBody = futureBody.reverse();
 
   // If our body is longer than the path, append the rest of the body,
   // cutting off the trailing part to indicate where our tail

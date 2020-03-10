@@ -3,6 +3,7 @@ import Pathfinder from '../Pathfinder';
 import { firstToFood } from '../helpers';
 import { chaseEnemyTail } from './chaseEnemyTail';
 import chaseTail from './chaseTail';
+import { logger } from '../logger';
 
 /**
  * Go for the food
@@ -28,7 +29,7 @@ function isItADeadEnd(
   futureUs: ISnake,
   snakes: ISnake[]
 ): boolean {
-  console.log(futureUs);
+  logger.debug(futureUs);
   const pathToEnemyTail = chaseEnemyTail(PF, futureUs, snakes);
   const pathToOurTail = chaseTail(PF, futureUs);
 
@@ -127,7 +128,7 @@ export const seekSafestFood = (
       return null;
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };
 

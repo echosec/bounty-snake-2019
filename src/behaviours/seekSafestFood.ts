@@ -111,7 +111,7 @@ export const seekSafestFood = (
     for (const snakeSnack of foodArray) {
       const pathToSnack = PF.getFullPath(head, snakeSnack);
       // If there's no path to food, continue
-      if (!pathToSnack) {
+      if (pathToSnack.length < 1) {
         continue;
       }
 

@@ -1,8 +1,6 @@
 import { manhattanDistance, isEquivalent } from '../helpers';
 import { ISnake, ICoordinate, Matrix } from '../Types';
 
-const visited = new Set();
-
 /**
  * Recursively traverse the board
  * @param grid - the game board
@@ -14,6 +12,7 @@ function traverse(
   grid: Matrix,
   x: number,
   y: number,
+  visited: Set<string>,
   region: string[] = []
 ): string[] {
   // If we're going off the board, return
@@ -33,10 +32,10 @@ function traverse(
   visited.add(`${x},${y}`);
 
   // Recursively traverse each neighbouring node
-  traverse(grid, x, y + 1, region);
-  traverse(grid, x, y - 1, region);
-  traverse(grid, x - 1, y, region);
-  traverse(grid, x + 1, y, region);
+  traverse(grid, x, y + 1, visited, region);
+  traverse(grid, x, y - 1, visited, region);
+  traverse(grid, x - 1, y, visited, region);
+  traverse(grid, x + 1, y, visited, region);
 
   // Return the array
   return region;
@@ -47,7 +46,7 @@ function traverse(
  * the board
  * @param grid - the board
  */
-function findWalkableRegions(grid: Matrix): ICoordinate[][] {
+function findWalkableRegions(grid: Matrix, visited: Set<string>): ICoordinate[][] {
   const walkableRegions: string[][] = [];
 
   // Iterate over the rows and columns
@@ -60,7 +59,7 @@ function findWalkableRegions(grid: Matrix): ICoordinate[][] {
 
       // If the node is not in the set,
       // kick off a traversal
-      const region: string[] = traverse(grid, x, y);
+      const region: string[] = traverse(grid, x, y, visited);
 
       if (region) {
         walkableRegions.push(region);
@@ -166,8 +165,9 @@ function getPaths(
  * @param us - us
  */
 export function floodFill(grid: Matrix, us: ISnake): ICoordinate {
+  const visited: Set<string> = new Set();
   // Find all walkable regions
-  const regions = findWalkableRegions(grid);
+  const regions = findWalkableRegions(grid, visited);
   // Determine which is the largest
   const bestRegion = findLargestAdjacentRegion(us, regions);
   // If we're not adjacent to any regions, we're dead. Game over, man.
@@ -175,32 +175,13 @@ export function floodFill(grid: Matrix, us: ISnake): ICoordinate {
     return null;
   }
 
-  // Our longest possible path
-  let bestPath: ICoordinate[] = [];
-
-  const left: ICoordinate[] = [];
-  const right: ICoordinate[] = [];
-  const up: ICoordinate[] = [];
-  const down: ICoordinate[] = [];
-  // eslint-disable-next-line
-  const paths = [left, right, up, down];
+  // Our path
+  const path: ICoordinate[] = [];
 
   const ourHead = us.body[0];
 
-  // Try to get a path in each starting direction,
-  // pushing to the coordinate arrays defined above
-  getPaths([...bestRegion], ourHead, left);
-  getPaths([...bestRegion], ourHead, right);
-  getPaths([...bestRegion], ourHead, up);
-  getPaths([...bestRegion], ourHead, down);
-
-  // Pick the longest path
-  paths.forEach(path => {
-    if (path.length > bestPath.length) {
-      bestPath = path;
-    }
-  });
+  getPaths(bestRegion, ourHead, path);
 
   // Return the first move from the best path
-  return bestPath.length > 1 ? bestPath[1] : null;
+  return path.length > 1 ? path[1] : null;
 }

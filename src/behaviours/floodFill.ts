@@ -122,13 +122,12 @@ function findLargestAdjacentRegion(
 }
 
 /**
- * Create arrays containing coordinate paths
- * for each direction we can travel in
+ * Create an array coordinate path
  * @param region - the board
  * @param current - the current node
  * @param path - the path to take
  */
-function getPaths(
+function getPath(
   region: ICoordinate[],
   current: ICoordinate,
   path: ICoordinate[],
@@ -150,7 +149,7 @@ function getPaths(
     for (const node of region) {
       // Have we been here before? Time is a flat circle
       if (isEquivalent(node, move) && !visitedNodes.has(JSON.stringify(move))) {
-        getPaths(region, move, path, visitedNodes);
+        getPath(region, move, path, visitedNodes);
         return;
       }
     }
@@ -177,10 +176,9 @@ export function floodFill(grid: Matrix, us: ISnake): ICoordinate {
 
   // Our path
   const path: ICoordinate[] = [];
-
   const ourHead = us.body[0];
 
-  getPaths(bestRegion, ourHead, path);
+  getPath(bestRegion, ourHead, path);
 
   // Return the first move from the best path
   return path.length > 1 ? path[1] : null;

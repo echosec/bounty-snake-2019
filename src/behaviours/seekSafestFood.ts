@@ -60,8 +60,9 @@ function itsATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   // If our body is longer than the path, append the rest of the body,
   // to indicate where our tail has slithered along behind us
   if (us.body.length > pathToSnack.length) {
+    const tailDelta = us.body.length - pathToSnack.length;
     // eslint-disable-next-line
-    futureBody = [...futureBody, ...us.body.slice(0, pathToSnack.length)];
+    futureBody = [...futureBody, ...us.body.slice(0, tailDelta)];
   }
 
   // Get the index of our snake in the snake array

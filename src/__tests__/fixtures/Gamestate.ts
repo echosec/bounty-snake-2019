@@ -39,7 +39,7 @@ export const gameState = {
         health: 50,
         body: [
           { x: 9, y: 8 },
-          { x: 10, y: 8 }
+          { x: 10, y: 8 },
         ],
         shout: 'snekking good too',
       },

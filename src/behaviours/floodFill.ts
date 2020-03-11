@@ -46,7 +46,10 @@ function traverse(
  * the board
  * @param grid - the board
  */
-function findWalkableRegions(grid: Matrix, visited: Set<string>): ICoordinate[][] {
+function findWalkableRegions(
+  grid: Matrix,
+  visited: Set<string>
+): ICoordinate[][] {
   const walkableRegions: string[][] = [];
 
   // Iterate over the rows and columns

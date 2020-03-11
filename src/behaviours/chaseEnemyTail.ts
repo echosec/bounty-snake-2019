@@ -1,6 +1,6 @@
 import { ISnake, ICoordinate, Directions } from '../Types';
 import Pathfinder from '../Pathfinder';
-import { manhattanDistance, getOtherSnakes } from '../helpers';
+import { manhattanDistance, getOtherSnakes, theSnakeJustAte } from '../helpers';
 
 /**
  * @param {Pathfinder} PF - Pathfinder class initialized with game state
@@ -13,7 +13,11 @@ export const chaseEnemyTail = (
   us: ISnake,
   snakes: ISnake[]
 ): Directions => {
-  const others = getOtherSnakes(us, snakes);
+  let others = getOtherSnakes(us, snakes);
+
+  // Don't chase the tails of snakes that just ate, because
+  // their tails won't move next turn
+  others = others.filter(snake => !theSnakeJustAte(snake));
 
   if (others.length === 0) {
     return null;

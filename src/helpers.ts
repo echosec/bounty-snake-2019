@@ -129,10 +129,7 @@ export function shouldChaseOurTail(us: ISnake): boolean {
  * @param a - one object
  * @param b - another object
  */
-export function isEquivalent(
-  a: Record<string, unknown>,
-  b: Record<string, unknown>
-): boolean {
+export function isEquivalent(a: ICoordinate, b: ICoordinate): boolean {
   // Create arrays of property names
   const aProps = Object.getOwnPropertyNames(a);
   const bProps = Object.getOwnPropertyNames(b);

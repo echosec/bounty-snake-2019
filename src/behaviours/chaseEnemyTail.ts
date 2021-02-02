@@ -22,7 +22,7 @@ export const chaseEnemyTail = (
   // If we are right next to the enemy's tail, and it just ate,
   // we should not chase it, or we'll run into it
   others = others.filter(
-    snake => !theSnakeJustAteAndWeAreCloseToItsButt(us, snake)
+    (snake) => !theSnakeJustAteAndWeAreCloseToItsButt(us, snake)
   );
 
   if (others.length === 0) {

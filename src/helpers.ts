@@ -22,7 +22,7 @@ export function getNemesis(us: ISnake, snakes: ISnake[]): ISnake {
     return null;
   }
 
-  return snakes.find(snake => snake.name !== us.name);
+  return snakes.find((snake) => snake.name !== us.name);
 }
 
 /**
@@ -55,7 +55,7 @@ export function shouldKillNemesis(us: ISnake, snakes: ISnake[]): boolean {
  * @param {ISnake[]} snakes - all the snakes
  */
 export function getOtherSnakes(us: ISnake, snakes: ISnake[]): ISnake[] {
-  return snakes.filter(snake => snake.id !== us.id);
+  return snakes.filter((snake) => snake.id !== us.id);
 }
 
 /**
@@ -129,7 +129,10 @@ export function shouldChaseOurTail(us: ISnake): boolean {
  * @param a - one object
  * @param b - another object
  */
-export function isEquivalent(a: {}, b: {}): boolean {
+export function isEquivalent(
+  a: Record<string, unknown>,
+  b: Record<string, unknown>
+): boolean {
   // Create arrays of property names
   const aProps = Object.getOwnPropertyNames(a);
   const bProps = Object.getOwnPropertyNames(b);

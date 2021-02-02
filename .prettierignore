@@ -1,4 +1,5 @@
 makefile
+coverage/*
 *.json
 *.html
 *.yml

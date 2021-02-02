@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express';
 import { CustomError } from './errors';
 
 /**
@@ -5,12 +6,20 @@ import { CustomError } from './errors';
  * focus on writing your snake logic in index.js endpoints.
  */
 
-const poweredByHandler = (_, res, next): void => {
+const poweredByHandler = (
+  _: Request,
+  res: Response,
+  next: NextFunction
+): void => {
   res.setHeader('X-Powered-By', 'Battlesnake');
   next();
 };
 
-const fallbackHandler = (req, res, next): Express.Response | void => {
+const fallbackHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Express.Response | void => {
   // Root URL path
   if (req.baseUrl === '') {
     res.status(200);
@@ -35,9 +44,9 @@ const fallbackHandler = (req, res, next): Express.Response | void => {
 
 const genericErrorHandler = (
   err: CustomError,
-  _,
-  res,
-  next
+  _: Request,
+  res: Response,
+  next: NextFunction
 ): Express.Response | void => {
   // This will never be called but to satisfy Typescript, we make use of it.
   if (!err) next();

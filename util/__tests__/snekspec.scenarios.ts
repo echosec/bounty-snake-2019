@@ -1,7 +1,6 @@
 /* eslint-disable */
 
-export const snakesAndFood1 =
-`-----------
+export const snakesAndFood1 = `-----------
 ---0-------
 -----------
 --T------0-
@@ -13,8 +12,7 @@ export const snakesAndFood1 =
 -----Vvvv--
 -----------`;
 
-export const singleHeadSnake = 
-`-----------
+export const singleHeadSnake = `-----------
 -----------
 -----------
 -----------
@@ -26,8 +24,7 @@ export const singleHeadSnake =
 -----------
 -----------`;
 
-export const headAndTailSnake1 = 
-`-----------
+export const headAndTailSnake1 = `-----------
 -----------
 -----------
 -----------
@@ -39,8 +36,7 @@ export const headAndTailSnake1 =
 -----------
 -----------`;
 
-export const headAndTailSnake2 = 
-`-----------
+export const headAndTailSnake2 = `-----------
 -----------
 -----------
 -----------
@@ -52,8 +48,7 @@ export const headAndTailSnake2 =
 -----------
 -----------`;
 
-export const curlySnake = 
-`-----------
+export const curlySnake = `-----------
 -----------
 -----------
 -----------
@@ -65,8 +60,7 @@ export const curlySnake =
 -----------
 -----------`;
 
-export const floodFillSnake = 
-`Ttttttttttt
+export const floodFillSnake = `Ttttttttttt
 ttttttttttt
 ttttttttttt
 ----------S

@@ -86,9 +86,9 @@ function candidateSnakesAndFoodFromMock(
   }
 
   const snakeHeads = Object.keys(letterBodies)
-    .filter(key => letterBodies[key].length === 1)
+    .filter((key) => letterBodies[key].length === 1)
     .sort();
-  snakeHeads.forEach(head => {
+  snakeHeads.forEach((head) => {
     const nextLetter = String.fromCharCode(head.charCodeAt(0) + 1);
     const nextLetterSnakeBody = letterBodies[nextLetter] || [];
     candidateSnakeBodies[head] = [
@@ -96,7 +96,7 @@ function candidateSnakesAndFoodFromMock(
       ...nextLetterSnakeBody,
     ];
     // for the edge case that there's no body, just a head and a tail (eg two heads)
-    const index = snakeHeads.findIndex(e => e === nextLetter);
+    const index = snakeHeads.findIndex((e) => e === nextLetter);
     if (index >= 0) {
       delete snakeHeads[index];
     }
@@ -208,7 +208,7 @@ function getGameStateFromMock(
     height,
     width
   );
-  Object.keys(candidateBoard.snakes).forEach(key => {
+  Object.keys(candidateBoard.snakes).forEach((key) => {
     candidateBoard.snakes[key] = untangleSnake(candidateBoard.snakes[key]);
   });
 
@@ -222,7 +222,7 @@ function getGameStateFromMock(
       width,
       food: candidateBoard.food,
       snakes: Object.entries(candidateBoard.snakes).map(
-        // eslint-disable-next-line array-element-newline
+        /* eslint-disable array-element-newline, @typescript-eslint/no-unused-vars */
         <ISnake>([key, snake]) => ({
           id: key,
           name: key,
@@ -230,11 +230,12 @@ function getGameStateFromMock(
           body: untangleSnake(snake),
           shout: 'boo!',
         })
+        /* eslint-enable array-element-newline, @typescript-eslint/no-unused-vars */
       ),
     },
     you: {} as ISnake,
   };
-  gameState.you = gameState.board.snakes.find(snake => snake.id == you);
+  gameState.you = gameState.board.snakes.find((snake) => snake.id == you);
 
   return gameState;
 }

@@ -156,7 +156,7 @@ export default class Pathfinder {
 
       // For each space around its head,
       // if it exists on the board, make it unwalkable
-      nearTheHead.forEach(node => {
+      nearTheHead.forEach((node) => {
         if (node !== undefined) {
           node === NOPE;
         }

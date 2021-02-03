@@ -66,7 +66,7 @@ function itsATrap(pathToSnack: Matrix, us: ISnake, board: IBoard): boolean {
   }
 
   // Get the index of our snake in the snake array
-  const indexOfUs = board.snakes.findIndex(snake => snake.id === us.id);
+  const indexOfUs = board.snakes.findIndex((snake) => snake.id === us.id);
 
   // Predict the future wooooOOOOOooooOOOOOooo
   const futureUs: ISnake = { ...us };

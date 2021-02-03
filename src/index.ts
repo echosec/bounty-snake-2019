@@ -21,7 +21,7 @@ client.on('connect', () => {
   logger.info('Redis connected');
 });
 
-client.on('error', err => {
+client.on('error', (err) => {
   logger.error(err);
 });
 
